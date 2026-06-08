@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Smart Pedestrian Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div
+        id="loginScreen"
+        class="login-screen"
+    >
+
+        <div class="login-panel">
+            <h1>
+                FlowAI
+            </h1>
+
+            <p>
+                Smart Pedestrian Flow Monitoring
+            </p>
+
+            <form
+                onsubmit="login(event)"
+                autocomplete="off"
+            >
+                <label>
+                    Email
+                </label>
+
+                <input
+                    id="loginEmail"
+                    type="email"
+                    autocomplete="off"
+                    required
+                >
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    id="loginPassword"
+                    type="password"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">
+                    Login
+                </button>
+            </form>
+
+            <div id="loginError"></div>
+
+            <div class="login-divider"></div>
+
+            <form
+                class="register-panel"
+                onsubmit="registerAccount(event)"
+                autocomplete="off"
+            >
+                <h2>
+                    Create Account
+                </h2>
+
+                <input
+                    id="registerName"
+                    placeholder="Full name"
+                    autocomplete="name"
+                    required
+                >
+
+                <input
+                    id="registerEmail"
+                    placeholder="Email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                >
+
+                <input
+                    id="registerPassword"
+                    placeholder="Password"
+                    type="password"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <button type="submit">
+                    Create Account
+                </button>
+
+                <div id="registerMessage"></div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- MAIN LAYOUT -->
+    <!-- ===================================== -->
+
+    <div class="main-layout">
+
+        <!-- ===================================== -->
+        <!-- SIDEBAR -->
+        <!-- ===================================== -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-logo">
+
+                    <h1>
+                        FlowAI
+                    </h1>
+
+                    <p>
+                        Smart Monitoring Platform
+                    </p>
+
+                </div>
+
+                <div class="live-clock">
+
+                    <span id="clock">
+                        00:00:00
+                    </span>
+
+                </div>
+
+                <div class="user-box">
+
+                    <strong id="currentUserName">
+                        Guest
+                    </strong>
+
+                    <span id="currentUserRole">
+                        -
+                    </span>
+
+                    <button
+                        class="secondary-button"
+                        onclick="logout()"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- MENU -->
+
+            <div class="sidebar-menu">
+
+                <button
+                    class="menu-item active"
+                    id="dashboardMenu"
+                    onclick="switchTab('dashboardTab', this)"
+                >
+                    Dashboard
+                </button>
+
+                <button
+                    class="menu-item"
+                    id="sourcesMenu"
+                    onclick="switchTab('sourcesTab', this)"
+                >
+                    Sources
+                </button>
+
+                <button
+                    class="menu-item"
+                    id="analyticsMenu"
+                    onclick="switchTab('analyticsTab', this)"
+                >
+                    Analytics
+                </button>
+
+                <button
+                    class="menu-item"
+                    id="multicamMenu"
+                    onclick="switchTab('multicamTab', this)"
+                >
+                    Multicam
+                </button>
+
+                <button
+                    class="menu-item"
+                    id="historyMenu"
+                    onclick="switchTab('jobsTab', this)"
+                >
+                    History
+                </button>
+
+                <button
+                    class="menu-item"
+                    id="alertsMenu"
+                    onclick="switchTab('alertsTab', this)"
+                >
+                    Alerts
+                </button>
+
+                <button
+                    class="menu-item"
+                    id="reportsMenu"
+                    onclick="switchTab('reportsTab', this)"
+                >
+                    Reports
+                </button>
+
+                <button
+                    class="menu-item admin-only"
+                    onclick="switchTab('usersTab', this)"
+                >
+                    Users
+                </button>
+
+                <button
+                    class="menu-item"
+                    id="systemMenu"
+                    onclick="switchTab('systemTab', this)"
+                >
+                    System
+                </button>
+
+            </div>
+
+        </aside>
+
+        <!-- ===================================== -->
+        <!-- MAIN CONTENT -->
+        <!-- ===================================== -->
+
+        <main class="content-area">
+
+            <!-- ===================================== -->
+            <!-- TOPBAR -->
+            <!-- ===================================== -->
+
+            <div class="topbar">
+
+                <div class="topbar-left">
+
+                    <h1>
+                        SMART PEDESTRIAN FLOW MONITORING
+                    </h1>
+
+                    <p>
+                        AI Surveillance & Flow Analytics Dashboard
+                    </p>
+
+                </div>
+
+                <div class="upload-container">
+
+                    <select id="cameraSelect"></select>
+
+                    <input
+                        type="file"
+                        id="videoInput"
+                        accept="video/*"
+                    >
+
+                    <input
+                        type="file"
+                        id="editVideoInput"
+                        accept="video/*"
+                        onchange="uploadEditedCameraVideo(event)"
+                        hidden
+                    >
+
+                    <button onclick="uploadVideo()">
+                        Upload Video
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div
+                id="sourcesTab"
+                class="tab-page"
+            >
+
+                <div class="analytics-grid source-only-grid">
+
+                    <div class="panel">
+
+                        <h2>
+                            Camera Sources
+                        </h2>
+
+                        <div class="source-form">
+
+                            <input
+                                id="cameraName"
+                                placeholder="Camera name"
+                            >
+
+                            <input
+                                id="cameraLocation"
+                                placeholder="Location"
+                            >
+
+                            <button onclick="createCamera()">
+                                Add Camera
+                            </button>
+
+                        </div>
+
+                        <div id="cameraList"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===================================== -->
+            <!-- DASHBOARD TAB -->
+            <!-- ===================================== -->
+
+            <div
+                id="dashboardTab"
+                class="tab-page active-page"
+            >
+
+                <!-- CARDS -->
+
+                <div class="card-container">
+
+                    <div class="card">
+
+                        <div class="card-info">
+
+                            <h2>
+                                Total People
+                            </h2>
+
+                            <p id="totalPeople">
+                                0
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+
+                        <div class="card-info">
+
+                            <h2>
+                                Crowded Zone
+                            </h2>
+
+                            <p id="crowdedZone">
+                                -
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+
+                        <div class="card-info">
+
+                            <h2>
+                                Popular Path
+                            </h2>
+
+                            <p id="popularPath">
+                                -
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+
+                        <div class="card-info">
+
+                            <h2>
+                                System Status
+                            </h2>
+
+                            <p id="congestionAlert">
+                                Normal
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- VIDEO + HEATMAP -->
+
+                <div class="dashboard-grid">
+
+                    <!-- VIDEO -->
+
+                    <div class="panel video-panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+                                Processed Video
+                            </h2>
+
+                            <div class="live-badge">
+                                LIVE
+                            </div>
+
+                        </div>
+
+                        <div class="video-wrapper">
+
+                            <video
+                                id="processedVideo"
+                                controls
+                                autoplay
+                                muted
+                                poster="/preview.jpg"
+                            >
+
+                                <source
+                                    src=""
+                                    type="video/mp4"
+                                >
+
+                            </video>
+
+                            <img
+                                id="processedFallback"
+                                class="processed-fallback"
+                                src="/preview.jpg"
+                                alt="Processed video preview"
+                            >
+
+                            <div class="video-overlay">
+
+                                <div>
+                                    📹 CAMERA ACTIVE
+                                </div>
+
+                                <div>
+                                    🤖 YOLOv8 TRACKING
+                                </div>
+
+                                <div>
+                                    🟢 LIVE DETECTION
+                                </div>
+
+                            </div>
+
+                            <svg id="dashboardZoneOverlay"></svg>
+
+                        </div>
+
+                    </div>
+
+                    <!-- HEATMAP -->
+
+                    <div class="panel heatmap-panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+                                Heatmap Analytics
+                            </h2>
+
+                        </div>
+
+                        <img
+                            id="heatmapImage"
+                            src=""
+                            onclick="openHeatmap()"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===================================== -->
+            <!-- ANALYTICS TAB -->
+            <!-- ===================================== -->
+
+            <div
+                id="analyticsTab"
+                class="tab-page"
+            >
+
+                <div class="analytics-grid">
+
+                    <div class="panel">
+
+                        <h2>
+                            Polygon Zone Analytics
+                        </h2>
+
+                        <canvas id="zoneChart"></canvas>
+                        <div
+                            id="zoneChartEmpty"
+                            class="feed-item"
+                        >
+                            No polygon zone analytics yet
+                        </div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <h2>
+                            Line Zone Analytics
+                        </h2>
+
+                        <div id="lineZoneList"></div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <h2>
+                            Movement Timeline
+                        </h2>
+
+                        <canvas id="timelineChart"></canvas>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <h2>
+                            Alerts
+                        </h2>
+
+                        <div id="alertList"></div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <h2>
+                            Transition Flow
+                        </h2>
+
+                        <div id="flowList"></div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <h2>
+                            Live Activity Feed
+                        </h2>
+
+                        <div id="activityFeed">
+
+                            <div class="feed-item">
+                                SYSTEM INITIALIZED
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div
+                id="multicamTab"
+                class="tab-page"
+            >
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Multi-Camera Overview</h2>
+                        <button onclick="loadMulticameraOverview()">Refresh</button>
+                    </div>
+
+                    <div id="multicamGrid" class="multicam-grid"></div>
+                </div>
+            </div>
+
+            <div
+                id="jobsTab"
+                class="tab-page"
+            >
+                <div class="analytics-grid wide-grid">
+                    <div class="panel">
+                        <h2>Analysis Job History</h2>
+
+                        <div class="filter-row">
+                            <input
+                                id="jobSearch"
+                                placeholder="Search camera, location, or video"
+                            >
+
+                            <select id="jobStatusFilter">
+                                <option value="">All statuses</option>
+                                <option value="completed">Completed</option>
+                                <option value="processing">Processing</option>
+                                <option value="failed">Failed</option>
+                            </select>
+
+                            <button onclick="loadJobs()">
+                                Apply
+                            </button>
+                        </div>
+
+                        <div id="jobHistoryList"></div>
+                    </div>
+
+                    <div class="panel">
+                        <h2>Job Detail</h2>
+                        <div id="jobDetail"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="alertsTab"
+                class="tab-page"
+            >
+                <div class="analytics-grid">
+                    <div class="panel">
+                        <h2>Alert Management</h2>
+                        <div id="alertManagementList"></div>
+                    </div>
+
+                    <div class="panel">
+                        <h2>Threshold Policy</h2>
+                        <p class="muted-text">
+                            Thresholds are configured per zone in System. Alerts are generated when analyzed people count exceeds the saved zone threshold.
+                        </p>
+                        <div id="thresholdSummary"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="reportsTab"
+                class="tab-page"
+            >
+                <div class="analytics-grid">
+                    <div class="panel">
+                        <h2>Report Export</h2>
+                        <div class="source-form">
+                            <input
+                                id="reportJobId"
+                                placeholder="Optional job ID"
+                                type="number"
+                            >
+
+                            <button onclick="exportReport()">
+                                Export CSV Report
+                            </button>
+
+                            <button onclick="downloadPdfReport()">
+                                Download PDF Report
+                            </button>
+                        </div>
+                        <p class="muted-text">
+                            Report includes KPI summary, zone counts, transition flow, dwell time, density score, and timeline.
+                        </p>
+                    </div>
+
+                    <div class="panel">
+                        <h2>Generated Reports</h2>
+                        <div id="reportHistoryList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="usersTab"
+                class="tab-page"
+            >
+                <div class="analytics-grid source-only-grid">
+                    <div class="panel">
+                        <h2>User Accounts</h2>
+
+                        <div id="userList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================== -->
+            <!-- SYSTEM TAB -->
+            <!-- ===================================== -->
+
+            <div
+                id="systemTab"
+                class="tab-page"
+            >
+
+                <div class="system-layout">
+
+                    <!-- LEFT -->
+
+                    <div class="panel zone-editor-panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+                                Zone Editor
+                            </h2>
+
+                        </div>
+
+                        <div class="zone-preview-wrapper">
+
+                            <img
+                                id="zonePreview"
+                                src = ""
+                                alt = "Zone Preview"
+                            >
+               
+                            <svg id="polygonOverlay"></svg>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT -->
+
+                    <div class="panel system-settings-panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+                                Zone Configuration
+                            </h2>
+
+                        </div>
+
+                        <div class="zone-controls">
+
+                            <label>
+                                Drawing Mode
+                            </label>
+
+                            <select id="zoneDrawMode">
+
+                                <option value="polygon">
+                                    Polygon zone
+                                </option>
+
+                                <option value="line">
+                                    Line zone
+                                </option>
+
+                            </select>
+
+                            <button onclick="addZone()">
+                                Add Zone
+                            </button>
+
+                            <button onclick="togglePolygonMode()">
+                                Draw Selected Zone
+                            </button>
+
+                            <button onclick="clearActivePolygon()">
+                                Clear Geometry
+                            </button>
+
+                            <button onclick="saveZones()">
+                                Save Zones
+                            </button>
+
+                        </div>
+
+                        <div id="zoneList">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- HEATMAP MODAL -->
+    <!-- ===================================== -->
+
+    <div
+        id="heatmapModal"
+        class="heatmap-modal"
+    >
+
+        <span
+            class="close-modal"
+            onclick="closeHeatmap()"
+        >
+            ✕
+        </span>
+
+        <img
+            id="heatmapFull"
+            class="heatmap-full-image"
+            src=""
+        >
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

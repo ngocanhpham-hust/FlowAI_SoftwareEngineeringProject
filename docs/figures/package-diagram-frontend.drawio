@@ -1,0 +1,117 @@
+<mxfile host="app.diagrams.net" modified="2026-06-08T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="frontend-package-diagram" name="Frontend Package Diagram">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Frontend Package Diagram" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;fontStyle=1;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="430" y="25" width="540" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Static web dashboard served from backend/public" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontColor=#6D7285;" vertex="1" parent="1">
+          <mxGeometry x="455" y="68" width="490" height="28" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="browser" value="&lt;b&gt;Browser&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;Admin / Analyst / Staff&lt;br&gt;interact with dashboard UI&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;strokeWidth=2;fontSize=18;fontColor=#15161A;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="155" width="230" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="frontendContainer" value="&lt;b&gt;Frontend Package: backend/public&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;Vanilla HTML, CSS, JavaScript dashboard&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;strokeWidth=2;fontSize=20;fontColor=#15161A;arcSize=8;verticalAlign=top;spacingTop=18;" vertex="1" parent="1">
+          <mxGeometry x="410" y="125" width="600" height="640" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="indexHtml" value="&lt;b&gt;index.html&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;Main page layout&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#d8deea;strokeWidth=2;fontSize=16;fontColor=#15161A;verticalAlign=top;spacingTop=14;" vertex="1" parent="1">
+          <mxGeometry x="445" y="225" width="165" height="300" as="geometry"/>
+        </mxCell>
+        <mxCell id="loginLayout" value="Login Screen" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7132f5;strokeColor=#7132f5;fontColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="475" y="305" width="105" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="sidebarLayout" value="Sidebar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef2ff;strokeColor=#d8deea;fontColor=#15161A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="475" y="342" width="105" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="topbarLayout" value="Topbar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef2ff;strokeColor=#d8deea;fontColor=#15161A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="475" y="379" width="105" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="tabsLayout" value="Tab Pages" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef2ff;strokeColor=#d8deea;fontColor=#15161A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="475" y="416" width="105" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="modalLayout" value="Heatmap Modal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef2ff;strokeColor=#d8deea;fontColor=#15161A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="475" y="453" width="105" height="26" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="appJs" value="&lt;b&gt;app.js&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;Client-side behavior and API integration&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#d8deea;strokeWidth=2;fontSize=16;fontColor=#15161A;verticalAlign=top;spacingTop=14;" vertex="1" parent="1">
+          <mxGeometry x="635" y="225" width="335" height="425" as="geometry"/>
+        </mxCell>
+        <mxCell id="authModule" value="Auth / Session&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;login, token, roles&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="665" y="310" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="navModule" value="Tab Navigation&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;switch dashboard tabs&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="820" y="310" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="apiModule" value="API Fetch Layer&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;REST requests + JWT&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="665" y="382" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="cameraModule" value="Camera Sources&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;select, upload, edit&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="820" y="382" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="zoneModule" value="Zone Editor&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;draw zones, threshold&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="665" y="454" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashboardModule" value="Dashboard Data&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;stats, alerts, jobs&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="820" y="454" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="chartsModule" value="Charts&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;timeline, zone counts&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="665" y="526" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="adminModule" value="Admin Views&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;users, reports&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="820" y="526" width="130" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="realtimeModule" value="Realtime refresh and media asset loading" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;fontSize=12;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="665" y="598" width="285" height="34" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="styleCss" value="&lt;b&gt;style.css&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;Visual presentation&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#d8deea;strokeWidth=2;fontSize=16;fontColor=#15161A;verticalAlign=top;spacingTop=14;" vertex="1" parent="1">
+          <mxGeometry x="445" y="555" width="165" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="styleLayout" value="Layout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f9;strokeColor=#d8deea;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="475" y="625" width="105" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="styleCards" value="Cards / Panels" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f9;strokeColor=#d8deea;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="475" y="658" width="105" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="styleZone" value="Zone Preview" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f9;strokeColor=#d8deea;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="475" y="691" width="105" height="24" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="chartjs" value="&lt;b&gt;External Library&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Chart.js&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;Timeline and zone analytics charts&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;strokeWidth=2;fontSize=18;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="170" width="250" height="140" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="backendApi" value="&lt;b&gt;Backend REST APIs&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;Express routes under /api&lt;/font&gt;&lt;br&gt;&lt;br&gt;/api/auth, /api/users&lt;br&gt;/api/cameras, /api/zones&lt;br&gt;/api/stats, jobs, reports" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;strokeWidth=2;fontSize=18;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="450" width="250" height="210" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="mediaAssets" value="&lt;b&gt;Generated Media&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px&quot;&gt;backend/public/media/jobs/&amp;lt;job_id&amp;gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;processed.mp4&lt;br&gt;preview.jpg&lt;br&gt;heatmap.png" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d8deea;strokeWidth=2;fontSize=18;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="480" width="230" height="185" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="browserToFrontend" value="loads static files" style="endArrow=block;html=1;rounded=0;strokeColor=#7132f5;strokeWidth=2;fontColor=#6D7285;fontSize=12;" edge="1" parent="1" source="browser" target="frontendContainer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="frontendToApi" value="fetch()" style="endArrow=block;html=1;rounded=0;strokeColor=#7132f5;strokeWidth=2;fontColor=#6D7285;fontSize=12;" edge="1" parent="1" source="apiModule" target="backendApi">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="chartsToChartJs" value="Chart objects" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#2563eb;strokeWidth=2;fontColor=#6D7285;fontSize=12;" edge="1" parent="1" source="chartsModule" target="chartjs">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="mediaToFrontend" value="loads video / preview / heatmap" style="endArrow=block;html=1;rounded=0;strokeColor=#149e61;strokeWidth=2;fontColor=#6D7285;fontSize=12;" edge="1" parent="1" source="mediaAssets" target="appJs">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="note" value="The frontend is organized by static files rather than framework packages: index.html defines structure, app.js controls behavior and API integration, and style.css defines presentation." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#6D7285;" vertex="1" parent="1">
+          <mxGeometry x="60" y="805" width="1280" height="35" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

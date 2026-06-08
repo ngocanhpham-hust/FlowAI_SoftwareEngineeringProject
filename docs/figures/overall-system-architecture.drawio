@@ -1,0 +1,134 @@
+<mxfile host="app.diagrams.net" modified="2026-06-08T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="overall-system-architecture" name="Overall System Architecture">
+    <mxGraphModel dx="1600" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="950" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Overall System Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="500" y="30" width="600" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- Database -->
+        <mxCell id="database" value="PostgreSQL&#xa;Database&#xa;&#xa;flowai" style="shape=cylinder3d;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="360" width="260" height="250" as="geometry"/>
+        </mxCell>
+        <mxCell id="dbTables" value="users, camera_sources, videos, zones&#xa;analysis_jobs, tracks, trajectory_points&#xa;zone_counts, flow_records, alerts, reports" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=11;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="85" y="525" width="230" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Backend -->
+        <mxCell id="backendContainer" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="500" y="260" width="450" height="440" as="geometry"/>
+        </mxCell>
+        <mxCell id="backendLabel" value="Back-End" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="715" width="170" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="nodeLabel" value="Node.js / Express" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="660" width="170" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="authApi" value="Auth / Users API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="535" y="305" width="150" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="cameraApi" value="Camera / Video API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="305" width="180" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="zoneApi" value="Zone Config API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="535" y="400" width="150" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="analyticsApi" value="Analytics / Alerts API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="400" width="180" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="reportApi" value="Reports API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="535" y="495" width="150" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="videoProcessing" value="VideoProcessingService&#xa;Python orchestration" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="495" width="180" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="runtimeStorage" value="Runtime File Storage&#xa;uploads / outputs / media jobs" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="535" y="590" width="375" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- CV pipeline above backend -->
+        <mxCell id="cvContainer" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="555" y="115" width="340" height="95" as="geometry"/>
+        </mxCell>
+        <mxCell id="cvLabel" value="Python Computer Vision Pipeline" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="82" width="230" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="previewScript" value="Preview" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="575" y="140" width="70" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="trackingScript" value="YOLOv8&#xa;Tracking" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="140" width="75" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="analyticsScript" value="Analytics" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="750" y="140" width="70" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="heatmapScript" value="Heatmap" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="835" y="140" width="70" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Frontend nested -->
+        <mxCell id="clientOuter" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="265" width="310" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="browserBox" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="285" width="270" height="310" as="geometry"/>
+        </mxCell>
+        <mxCell id="staticDashboardBox" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="310" width="230" height="235" as="geometry"/>
+        </mxCell>
+        <mxCell id="appBox" value="Static Dashboard&#xa;backend/public" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="335" width="190" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashboardTab" value="Dashboard / Analytics" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1255" y="405" width="160" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="sourceTab" value="Sources / Upload" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1255" y="455" width="160" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="systemTab" value="System / Zone Config" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1255" y="505" width="160" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="appText" value="App" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1295" y="548" width="80" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="browserText" value="Browser" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1295" y="595" width="80" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="frontendText" value="Front-End" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="645" width="95" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- User -->
+        <mxCell id="users" value="Admin / Analyst / Staff" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="120" width="240" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="dbBackend" value="SQL" style="endArrow=block;startArrow=block;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontSize=12;" edge="1" parent="1" source="database" target="backendContainer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="frontendBackend" value="REST API + JSON" style="endArrow=block;startArrow=block;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontSize=12;" edge="1" parent="1" source="backendContainer" target="clientOuter">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="backendCv" value="execFile" style="endArrow=block;startArrow=block;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontSize=12;" edge="1" parent="1" source="cvContainer" target="backendContainer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="userFrontend" value="uses" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontSize=12;" edge="1" parent="1" source="users" target="clientOuter">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Notes -->
+        <mxCell id="note1" value="Video upload, camera source management, zone configuration, analytics, alerts, history, multicamera, users, and reports are exposed through Express APIs." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=12;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="500" y="760" width="450" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="note2" value="Generated media: processed.mp4, preview.jpg, heatmap.png, trajectories.csv, stats.json" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=12;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="515" y="805" width="420" height="30" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

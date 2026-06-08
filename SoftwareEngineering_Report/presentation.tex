@@ -1,0 +1,485 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+% Compile from SoftwareEngineering_Report:
+% pdflatex -interaction=nonstopmode presentation.tex
+% or xelatex -interaction=nonstopmode presentation.tex
+
+\usepackage{iftex}
+\ifPDFTeX
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+\else
+    \usepackage{fontspec}
+    \setmainfont{Latin Modern Roman}
+    \setsansfont{Latin Modern Sans}
+\fi
+
+\usefonttheme{serif}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\graphicspath{{figures/}}
+
+\definecolor{HeaderBlue}{RGB}{180,220,235}
+\definecolor{ReportBlue}{RGB}{26,88,132}
+\definecolor{ReportTeal}{RGB}{34,128,120}
+\definecolor{ReportGray}{RGB}{82,92,105}
+\definecolor{ReportLight}{RGB}{245,245,245}
+
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=ReportBlue}
+\setbeamercolor{frametitle}{fg=white,bg=ReportBlue}
+\setbeamercolor{title}{fg=white,bg=ReportBlue}
+\setbeamercolor{block title}{fg=black,bg=HeaderBlue}
+\setbeamercolor{block body}{fg=black,bg=ReportLight}
+\setbeamercolor{section page}{fg=white,bg=ReportBlue}
+\setbeamercolor{footline}{fg=ReportGray}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{ReportTeal}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{ReportTeal}$\bullet$}
+\setbeamertemplate{footline}{
+    \hfill
+    \scriptsize Smart Pedestrian Flow Monitoring \hspace{0.5em}
+    \insertframenumber/\inserttotalframenumber
+    \hspace{1.2em}\vspace{0.5em}
+}
+
+\setbeamerfont{title}{family=\rmfamily,series=\bfseries,size=\Large}
+\setbeamerfont{subtitle}{family=\rmfamily,size=\normalsize}
+\setbeamerfont{frametitle}{family=\rmfamily,series=\bfseries,size=\large}
+\setbeamerfont{block title}{family=\rmfamily,series=\bfseries}
+\setbeamerfont{normal text}{family=\rmfamily}
+
+\newcommand{\ProjectName}{Smart Pedestrian Flow Monitoring and Analytics System}
+\newcommand{\tightlist}{\setlength{\itemsep}{0.18em}\setlength{\parskip}{0pt}}
+\newcommand{\img}[2]{%
+    \begin{center}
+        \includegraphics[width=0.96\linewidth,height=#1,keepaspectratio]{#2}
+    \end{center}
+}
+\newcommand{\fixedblock}[3]{%
+    \begin{beamercolorbox}[wd=\linewidth,sep=0.45em]{block title}
+        \begin{minipage}[c][0.82cm][c]{\dimexpr\linewidth-0.9em\relax}
+            \raggedright\usebeamerfont{block title}#1
+        \end{minipage}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=\linewidth,sep=0.55em]{block body}
+        \begin{minipage}[c][#2][c]{\dimexpr\linewidth-1.1em\relax}
+            \raggedright #3
+        \end{minipage}
+    \end{beamercolorbox}
+}
+\newcommand{\sectionframe}[2]{%
+    \begingroup
+    \setbeamercolor{background canvas}{bg=ReportBlue}
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[align=center,text=white] at (current page.center) {
+                {\Large\bfseries #1}\\[0.6em]
+                {\normalsize #2}
+            };
+        \end{tikzpicture}
+    \end{frame}
+    \endgroup
+}
+
+\title{\ProjectName}
+\subtitle{Acceptance Test Presentation}
+\author{Group SmartAttend}
+\institute{Hanoi University of Science and Technology}
+\date{June 2026}
+
+\begin{document}
+
+% 1
+\begin{frame}
+    \titlepage
+    \vspace{-1.2em}
+    \begin{center}
+        \small Course: Introduction to Software Engineering
+    \end{center}
+\end{frame}
+
+% 2
+\begin{frame}{Member Assignment}
+    \scriptsize
+    \renewcommand{\arraystretch}{1.18}
+    \begin{tabularx}{\linewidth}{>{\bfseries}p{0.28\linewidth}X}
+        \toprule
+        Member & Main Responsibility \\
+        \midrule
+        Ngo Nguyen Ngoc & Express app structure, APIs, database integration, video processing coordination. \\
+        Le Hoang Nam & YOLOv8 tracking pipeline, trajectory export, analytics and heatmap scripts. \\
+        Nguyen Trung Hai & Dashboard layout, API integration, charts, history, alerts, and reports UI. \\
+        Tran Mai Duong & Requirements, use cases, acceptance criteria, test cases, and validation flow. \\
+        Pham Thi Ngoc Anh & Report writing, diagrams, system design documentation, slide preparation. \\
+        Vu Thuy Linh & End-to-end testing, demo data, regression checks, and final integration review. \\
+        \bottomrule
+    \end{tabularx}
+\end{frame}
+
+% 3
+\begin{frame}{Table of Contents}
+    \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Acceptance Context}
+\sectionframe{1. Acceptance Context}{Client need, problem summary, and prototype scope}
+
+% 4
+\begin{frame}{Problem Description, Survey, and Scope}
+    \small
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.32\textwidth}
+            \fixedblock{Problem Description}{0.45\textheight}{
+                \begin{itemize}\tightlist
+                    \item Public venues already collect surveillance video.
+                    \item Raw footage is mostly reviewed manually.
+                    \item Manual review misses repeated crowding patterns and common paths.
+                \end{itemize}
+            }
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \fixedblock{Problem Survey}{0.45\textheight}{
+                \begin{itemize}\tightlist
+                    \item Facility teams need measurable movement data.
+                    \item Important outputs include:
+                    \begin{itemize}\tightlist
+                        \item zone counts and occupancy;
+                        \item transition flows;
+                        \item heatmaps and alerts.
+                    \end{itemize}
+                \end{itemize}
+            }
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \fixedblock{Accepted Scope}{0.45\textheight}{
+                \begin{itemize}\tightlist
+                    \item Local offline-video prototype.
+                    \item Upload MP4, configure zones, and run analysis.
+                    \item Accepted outputs:
+                    \begin{itemize}\tightlist
+                        \item dashboard analytics;
+                        \item alerts, history, reports.
+                    \end{itemize}
+                \end{itemize}
+            }
+        \end{column}
+    \end{columns}
+    \vspace{0.8em}
+    \begin{center}
+        \textcolor{ReportBlue}{Privacy constraint: anonymous movement analytics only; no face recognition or identity matching.}
+    \end{center}
+\end{frame}
+
+% 5
+\begin{frame}{Client Acceptance Goals}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \fixedblock{What the Client Expects}{0.52\textheight}{
+                \begin{itemize}\tightlist
+                    \item A working web system, not only diagrams.
+                    \item Upload a video and create an analysis job.
+                    \item Configure monitoring zones and thresholds.
+                    \item Convert video into useful pedestrian flow analytics.
+                    \item Export or review results after analysis.
+                \end{itemize}
+            }
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \fixedblock{Acceptance Evidence}{0.52\textheight}{
+                \begin{itemize}\tightlist
+                    \item Implemented source code in frontend, backend, CV, and database layers.
+                    \item Generated processed media and analytics per job.
+                    \item Persisted users, cameras, zones, jobs, trajectories, alerts, and reports.
+                    \item Functional and non-functional tests passed in local demo.
+                \end{itemize}
+            }
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Requirements and Use Cases}
+\sectionframe{2. Requirements and Use Cases}{Actors, use cases, and acceptance-level requirements}
+
+% 7
+\begin{frame}{Actors, Use Cases, and Use Case Diagram}
+    \tiny
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.34\textwidth}
+            \img{0.50\textheight}{use-case-overall.png}
+            \vspace{-0.4em}
+            \begin{tabularx}{\linewidth}{>{\bfseries}p{0.28\linewidth}X}
+                \toprule
+                Actor & Capability \\
+                \midrule
+                Admin & Full operation and management. \\
+                Analyst & Analytics, history, reports. \\
+                Staff & Monitoring and alerts. \\
+                \bottomrule
+            \end{tabularx}
+        \end{column}
+        \begin{column}{0.62\textwidth}
+            \renewcommand{\arraystretch}{1.02}
+            \begin{tabularx}{\linewidth}{>{\bfseries}p{0.11\linewidth}p{0.38\linewidth}X}
+                \toprule
+                Code & Use Case & Acceptance Focus \\
+                \midrule
+                UC-01 & Manage Accounts & Admin manages users, roles, status. \\
+                UC-02 & Login & Users authenticate and get role-based UI. \\
+                UC-03 & Manage Camera Sources & Admin manages logical camera sources. \\
+                UC-04 & Upload Video and Run Analysis & Admin uploads MP4 and starts a job. \\
+                UC-05 & Configure Zones and Thresholds & Admin draws zones and sets thresholds. \\
+                UC-06 & Reprocess Analysis Job & Admin reruns analysis after zone changes. \\
+                UC-07 & View Dashboard & Users view KPIs, media, heatmap. \\
+                UC-08 & View Multi-camera Overview & Users compare registered sources. \\
+                UC-09 & View Analytics Results & Admin/analyst reviews charts and flows. \\
+                UC-10 & View Job History and Detail & Admin/analyst audits previous jobs. \\
+                UC-11 & Manage Alerts & Admin/staff reviews and acknowledges alerts. \\
+                UC-12 & Export Report & Admin/analyst exports result reports. \\
+                \bottomrule
+            \end{tabularx}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% 8
+\begin{frame}{Acceptance-Level Requirements}
+    \small
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.32\textwidth}
+            \fixedblock{Functional}{0.46\textheight}{
+                \begin{itemize}\tightlist
+                    \item Role-based login.
+                    \item Source and video management.
+                    \item Zone and threshold setup.
+                    \item Pedestrian analysis pipeline.
+                    \item Alert and report output.
+                \end{itemize}
+            }
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \fixedblock{Quality}{0.46\textheight}{
+                \begin{itemize}\tightlist
+                    \item Clear job status.
+                    \item Upload validation.
+                    \item Stored historical results.
+                    \item Reasonable local demo time.
+                    \item Modular implementation.
+                \end{itemize}
+            }
+        \end{column}
+        \begin{column}{0.32\textwidth}
+            \fixedblock{Privacy}{0.46\textheight}{
+                \begin{itemize}\tightlist
+                    \item No biometric identity.
+                    \item Anonymous track IDs.
+                    \item Aggregate zone analytics.
+                    \item Permission-based access.
+                    \item No face database.
+                \end{itemize}
+            }
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Function Design}
+\sectionframe{3. Function Design}{How accepted functions are designed in the product}
+
+% 10
+\begin{frame}{Business Function Design}
+    \img{0.76\textheight}{business-function-diagram.png}
+\end{frame}
+
+% 11
+\begin{frame}{Function Coverage for Acceptance}
+    \scriptsize
+    \begin{tabularx}{\linewidth}{>{\bfseries}p{0.22\linewidth}p{0.34\linewidth}X}
+        \toprule
+        Function Group & Design Decision & Acceptance Result \\
+        \midrule
+        Administration & Auth routes, user service, role checks. & Admin, analyst, and staff access are separated. \\
+        Video Source & Camera source records plus uploaded MP4 videos. & Users can manage sources and run video jobs. \\
+        Zone Management & Polygon/line geometry stored per camera. & Analytics can be mapped to meaningful areas. \\
+        Pedestrian Analysis & Python CV scripts invoked by backend service. & Detection, tracking, heatmap, and stats are generated. \\
+        Reporting & Report routes query completed jobs. & CSV/PDF-style report outputs and history are available. \\
+        \bottomrule
+    \end{tabularx}
+\end{frame}
+
+\section{Technical Design}
+\sectionframe{4. Technical Design}{Architecture and data design supporting acceptance}
+
+% 16
+\begin{frame}{Overall System Architecture}
+    \img{0.76\textheight}{overall-system-structure.png}
+\end{frame}
+
+% 17
+\begin{frame}{Package Design and Runtime Structure}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.57\textwidth}
+            \img{0.65\textheight}{overall-package-design.png}
+        \end{column}
+        \begin{column}{0.39\textwidth}
+            \small
+            \begin{itemize}\tightlist
+                \item \texttt{backend/public}: static dashboard.
+                \item \texttt{backend/src/routes}: REST APIs.
+                \item \texttt{backend/src/services}: business and processing logic.
+                \item \texttt{backend/src/config}: database, schema, paths.
+                \item \texttt{ai\_services}: Python CV pipeline.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% 18
+\begin{frame}{Database Design}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \img{\textheight}{erd (2).png}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \small
+            \begin{itemize}\tightlist
+                \item Each accepted workflow has persistent records.
+                \item \texttt{videos} and \texttt{analysis\_jobs} track processing lifecycle.
+                \item \texttt{zones} stores user-defined analysis context.
+                \item \texttt{pedestrian\_tracks} and \texttt{trajectory\_points} store anonymous movement evidence.
+                \item \texttt{alerts} and \texttt{reports} store client-facing outputs.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% 19
+\begin{frame}{Computer Vision Pipeline}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.58\textwidth}
+            \img{0.70\textheight}{Sequence-sequence-detection-tracking-heatmap.png}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \small
+            \begin{block}{Implemented Scripts}
+                \begin{itemize}\tightlist
+                    \item \texttt{extract\_preview.py}
+                    \item \texttt{tracking.py}
+                    \item \texttt{analytics.py}
+                    \item \texttt{heatmap.py}
+                    \item \texttt{zones.py}
+                \end{itemize}
+            \end{block}
+            \begin{block}{Technical Purpose}
+                Convert video frames into anonymous trajectories and zone-based analytics.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Acceptance Testing}
+\sectionframe{5. Acceptance Testing}{Validation against client-facing product expectations}
+
+% 21
+\begin{frame}{Acceptance Test Plan}
+    \scriptsize
+    \begin{tabularx}{\linewidth}{>{\bfseries}p{0.20\linewidth}p{0.31\linewidth}X}
+        \toprule
+        Acceptance Area & Test Question & Evidence \\
+        \midrule
+        Access Control & Can users access only permitted functions? & Login, session validation, role checks. \\
+        Video Analysis & Can the system process an uploaded video? & Created job, processed media, stats output. \\
+        Zone Analytics & Do configured zones affect the result? & Zone counts, transitions, thresholds. \\
+        Alerting & Are threshold violations shown to users? & Warning/danger alert records. \\
+        Reporting & Can completed results be exported? & Report routes and generated history. \\
+        Privacy & Is identity avoided? & Anonymous track IDs and aggregate analytics. \\
+        \bottomrule
+    \end{tabularx}
+\end{frame}
+
+% 22
+\begin{frame}{Acceptance Test Results}
+    \small
+    \begin{tabularx}{\linewidth}{>{\bfseries}p{0.22\linewidth}X>{\centering\arraybackslash}p{0.16\linewidth}}
+        \toprule
+        Test Case & Test Objective & Result \\
+        \midrule
+        TC-AUTH-01 & Incorrect password must be rejected. & Passed \\
+        TC-VIDEO-01 & Non-video upload must be blocked. & Passed \\
+        TC-ANALYSIS-01 & Missing zone configuration must be handled safely. & Passed \\
+        TC-FLOW-01 & Zone-to-zone movement must increase transition count. & Passed \\
+        TC-ALERT-01 & Threshold violation must create warning/danger alerts. & Passed \\
+        \bottomrule
+    \end{tabularx}
+    \vspace{0.7em}
+    \begin{block}{Accepted Non-Functional Qualities}
+        Usability, reliability, security, privacy, and maintainability were validated in the local demo environment.
+    \end{block}
+\end{frame}
+
+% 23
+\begin{frame}{Product Accepted Capabilities}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \fixedblock{What Works Now}{0.50\textheight}{
+                \begin{itemize}\tightlist
+                    \item Account and role management.
+                    \item Camera source and video upload.
+                    \item Zone and threshold configuration.
+                    \item Pedestrian detection/tracking.
+                    \item Dashboard analytics, heatmap, alerts, history, and reports.
+                \end{itemize}
+            }
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \fixedblock{Acceptance Limitations}{0.50\textheight}{
+                \begin{itemize}\tightlist
+                    \item Offline uploaded video, not live CCTV.
+                    \item Logical multi-camera overview, not physical camera synchronization.
+                    \item Production privacy review remains future work.
+                \end{itemize}
+            }
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Conclusion}
+\sectionframe{6. Conclusion}{Acceptance summary and future improvements}
+
+% 25
+\begin{frame}{Conclusion and Future Work}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \fixedblock{Acceptance Summary}{0.48\textheight}{
+                \begin{itemize}\tightlist
+                    \item The prototype satisfies the main client-facing workflow.
+                    \item It demonstrates video-to-analytics conversion end to end.
+                    \item Functional outputs are persisted and reviewable.
+                    \item Privacy-aware anonymous tracking is maintained.
+                \end{itemize}
+            }
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \fixedblock{Future Work}{0.48\textheight}{
+                \begin{itemize}\tightlist
+                    \item Realtime camera stream processing.
+                    \item True multi-camera aggregation.
+                    \item Faster and more accurate CV pipeline.
+                    \item Map-based visualization and advanced alert rules.
+                    \item Evaluation with more diverse videos.
+                \end{itemize}
+            }
+        \end{column}
+    \end{columns}
+    \vspace{0.8em}
+    \begin{center}
+        \Large \textcolor{ReportBlue}{Thank you}
+    \end{center}
+\end{frame}
+
+\end{document}

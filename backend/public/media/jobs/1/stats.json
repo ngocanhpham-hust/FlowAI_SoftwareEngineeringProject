@@ -1,0 +1,47 @@
+{
+    "total_people": 80,
+    "most_crowded_zone": "-",
+    "popular_path": "No movement",
+    "zone_counts": {},
+    "transitions": {},
+    "timeline": [
+        {
+            "label": "0-31",
+            "count": 15
+        },
+        {
+            "label": "31-62",
+            "count": 11
+        },
+        {
+            "label": "62-93",
+            "count": 10
+        },
+        {
+            "label": "93-124",
+            "count": 21
+        },
+        {
+            "label": "124-155",
+            "count": 24
+        },
+        {
+            "label": "155-186",
+            "count": 20
+        },
+        {
+            "label": "186-217",
+            "count": 12
+        },
+        {
+            "label": "217-248",
+            "count": 17
+        },
+        {
+            "label": "248-279",
+            "count": 3
+        }
+    ],
+    "dwell_times": {},
+    "congestion_alert": "Normal"
+}

@@ -1,0 +1,79 @@
+{
+  "camera_source_id": "2",
+  "grid_size": 1,
+  "zones": [
+    {
+      "name": "Zone 1",
+      "type": "monitoring",
+      "grid_position": 0,
+      "coordinates": {
+        "shape": "polygon",
+        "points": [
+          {
+            "x": 0.0477,
+            "y": 0.0589
+          },
+          {
+            "x": 0.3677,
+            "y": 0.0995
+          },
+          {
+            "x": 0.3806,
+            "y": 0.5041
+          },
+          {
+            "x": 0.0875,
+            "y": 0.5165
+          }
+        ]
+      },
+      "threshold": 10
+    },
+    {
+      "name": "Zone 2",
+      "type": "monitoring",
+      "grid_position": 1,
+      "coordinates": {
+        "shape": "polygon",
+        "points": [
+          {
+            "x": 0.6082,
+            "y": 0.0836
+          },
+          {
+            "x": 0.9452,
+            "y": 0.0412
+          },
+          {
+            "x": 0.9461,
+            "y": 0.4176
+          },
+          {
+            "x": 0.6361,
+            "y": 0.4935
+          }
+        ]
+      },
+      "threshold": 10
+    },
+    {
+      "name": "Line 1",
+      "type": "counting-line",
+      "grid_position": 2,
+      "coordinates": {
+        "shape": "line",
+        "points": [
+          {
+            "x": 0.0706,
+            "y": 0.8275
+          },
+          {
+            "x": 0.9362,
+            "y": 0.8257
+          }
+        ]
+      },
+      "threshold": 10
+    }
+  ]
+}

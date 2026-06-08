@@ -1,0 +1,172 @@
+<mxfile host="app.diagrams.net" modified="2026-06-08T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="detailed-class-diagram" name="Detailed Class Diagram">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Detailed Class Diagram" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1;fontColor=#15161A;" vertex="1" parent="1">
+          <mxGeometry x="600" y="20" width="600" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Smart Pedestrian Flow Monitoring System" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=14;fontColor=#6D7285;" vertex="1" parent="1">
+          <mxGeometry x="610" y="60" width="580" height="28" as="geometry"/>
+        </mxCell>
+
+        <!-- Package containers -->
+        <mxCell id="frontendPkg" value="Frontend Package" style="swimlane;html=1;rounded=0;startSize=28;fillColor=#DDEFD8;strokeColor=#5E9B57;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="50" y="115" width="360" height="300" as="geometry"/>
+        </mxCell>
+        <mxCell id="backendPkg" value="Backend Application Package" style="swimlane;html=1;rounded=0;startSize=28;fillColor=#D8E6FB;strokeColor=#4F73B8;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="470" y="115" width="720" height="560" as="geometry"/>
+        </mxCell>
+        <mxCell id="cvPkg" value="Computer Vision Package" style="swimlane;html=1;rounded=0;startSize=28;fillColor=#E8DAF4;strokeColor=#7E57A0;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="115" width="500" height="365" as="geometry"/>
+        </mxCell>
+        <mxCell id="dataPkg" value="Database Entity Package" style="swimlane;html=1;rounded=0;startSize=28;fillColor=#FFE6BE;strokeColor=#E39A22;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="50" y="730" width="1690" height="380" as="geometry"/>
+        </mxCell>
+
+        <!-- Frontend classes -->
+        <mxCell id="DashboardClient" value="&lt;b&gt;DashboardClient&lt;/b&gt;&lt;hr&gt;- currentUser&lt;br&gt;- selectedCameraId&lt;br&gt;- selectedJobId&lt;br&gt;- zones[]&lt;hr&gt;+ login()&lt;br&gt;+ switchTab()&lt;br&gt;+ loadStats()&lt;br&gt;+ uploadVideo()&lt;br&gt;+ renderZoneList()&lt;br&gt;+ saveZones()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="75" y="160" width="150" height="215" as="geometry"/>
+        </mxCell>
+        <mxCell id="ApiClient" value="&lt;b&gt;ApiClient&lt;/b&gt;&lt;hr&gt;- token&lt;hr&gt;+ apiFetch()&lt;br&gt;+ cameraQuery()&lt;br&gt;+ selectedCameraId()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="245" y="160" width="140" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="ChartRenderer" value="&lt;b&gt;ChartRenderer&lt;/b&gt;&lt;hr&gt;- timelineChart&lt;br&gt;- zoneChart&lt;hr&gt;+ renderTimelineChart()&lt;br&gt;+ renderZoneChart()&lt;br&gt;+ renderLineZoneAnalytics()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="245" y="305" width="140" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Backend app classes -->
+        <mxCell id="Server" value="&lt;b&gt;Server&lt;/b&gt;&lt;hr&gt;- PORT&lt;hr&gt;+ start()&lt;br&gt;+ initDatabase()&lt;br&gt;+ seedDefaultUsers()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="500" y="160" width="145" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="ExpressApp" value="&lt;b&gt;ExpressApp&lt;/b&gt;&lt;hr&gt;- app&lt;br&gt;- staticFrontend&lt;hr&gt;+ createApp()&lt;br&gt;+ mountRoutes()&lt;br&gt;+ useMiddleware()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="665" y="160" width="145" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="PathConfig" value="&lt;b&gt;PathConfig&lt;/b&gt;&lt;hr&gt;+ ROOT_DIR&lt;br&gt;+ UPLOAD_DIR&lt;br&gt;+ OUTPUT_DIR&lt;br&gt;+ PUBLIC_DIR&lt;hr&gt;+ ensureRuntimeDirectories()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="830" y="160" width="145" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="DatabaseConfig" value="&lt;b&gt;DatabaseConfig&lt;/b&gt;&lt;hr&gt;- pool&lt;hr&gt;+ query()&lt;br&gt;+ initDatabase()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="995" y="160" width="145" height="115" as="geometry"/>
+        </mxCell>
+
+        <!-- Route/controller classes -->
+        <mxCell id="AuthRoutes" value="&lt;b&gt;AuthRoutes&lt;/b&gt;&lt;hr&gt;+ POST /auth/login&lt;br&gt;+ POST /auth/register&lt;br&gt;+ GET /auth/me&lt;br&gt;+ GET /users&lt;br&gt;+ POST /users&lt;br&gt;+ PATCH /users/:id" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="500" y="335" width="150" height="145" as="geometry"/>
+        </mxCell>
+        <mxCell id="CameraRoutes" value="&lt;b&gt;CameraRoutes&lt;/b&gt;&lt;hr&gt;+ GET /cameras&lt;br&gt;+ POST /cameras&lt;br&gt;+ PATCH /cameras/:id&lt;br&gt;+ DELETE /cameras/:id" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="670" y="335" width="150" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZoneRoutes" value="&lt;b&gt;ZoneRoutes&lt;/b&gt;&lt;hr&gt;+ GET /zones&lt;br&gt;+ POST /zones" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="840" y="335" width="140" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="VideoRoutes" value="&lt;b&gt;VideoRoutes&lt;/b&gt;&lt;hr&gt;+ POST /upload&lt;br&gt;+ POST /api/reprocess" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="335" width="150" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="AnalyticsRoutes" value="&lt;b&gt;AnalyticsRoutes&lt;/b&gt;&lt;hr&gt;+ GET /stats&lt;br&gt;+ GET /stats/realtime&lt;br&gt;+ GET /flow&lt;br&gt;+ GET /alerts&lt;br&gt;+ GET /analysis-jobs&lt;br&gt;+ GET /multicamera/overview" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="500" y="505" width="190" height="145" as="geometry"/>
+        </mxCell>
+        <mxCell id="ReportRoutes" value="&lt;b&gt;ReportRoutes&lt;/b&gt;&lt;hr&gt;+ GET /reports&lt;br&gt;+ POST /reports/export&lt;br&gt;+ GET /reports/print&lt;br&gt;+ GET /reports/pdf" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="715" y="505" width="165" height="115" as="geometry"/>
+        </mxCell>
+
+        <!-- Backend service classes -->
+        <mxCell id="AuthService" value="&lt;b&gt;AuthService&lt;/b&gt;&lt;hr&gt;- sessions: Map&lt;hr&gt;+ hashPassword()&lt;br&gt;+ login()&lt;br&gt;+ authenticate()&lt;br&gt;+ authorize()&lt;br&gt;+ seedDefaultUsers()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="905" y="455" width="160" height="145" as="geometry"/>
+        </mxCell>
+        <mxCell id="UploadMiddleware" value="&lt;b&gt;UploadMiddleware&lt;/b&gt;&lt;hr&gt;- storage&lt;hr&gt;+ single(&quot;video&quot;)&lt;br&gt;+ validateVideoMimeType()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="905" y="610" width="160" height="95" as="geometry"/>
+        </mxCell>
+        <mxCell id="VideoProcessingService" value="&lt;b&gt;VideoProcessingService&lt;/b&gt;&lt;hr&gt;- pool&lt;br&gt;- pythonBin&lt;hr&gt;+ processVideo()&lt;br&gt;+ runPython()&lt;br&gt;+ getLatestZones()&lt;br&gt;+ persistTrajectoryPoints()&lt;br&gt;+ saveStatsToJob()&lt;br&gt;+ copyLatestMedia()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1085" y="455" width="175" height="210" as="geometry"/>
+        </mxCell>
+
+        <!-- CV classes -->
+        <mxCell id="PreviewExtractor" value="&lt;b&gt;PreviewExtractor&lt;/b&gt;&lt;hr&gt;+ extractPreview(videoPath)&lt;br&gt;+ savePreviewImage()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1270" y="160" width="185" height="95" as="geometry"/>
+        </mxCell>
+        <mxCell id="PedestrianTracker" value="&lt;b&gt;PedestrianTracker&lt;/b&gt;&lt;hr&gt;- model: YOLOv8&lt;hr&gt;+ detectPersons()&lt;br&gt;+ trackObjects()&lt;br&gt;+ exportTrajectories()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1495" y="160" width="185" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="AnalyticsEngine" value="&lt;b&gt;AnalyticsEngine&lt;/b&gt;&lt;hr&gt;+ computeZoneCounts()&lt;br&gt;+ computeTransitions()&lt;br&gt;+ computeTimeline()&lt;br&gt;+ computeDwellTimes()&lt;br&gt;+ computePopularPath()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1270" y="320" width="185" height="145" as="geometry"/>
+        </mxCell>
+        <mxCell id="HeatmapGenerator" value="&lt;b&gt;HeatmapGenerator&lt;/b&gt;&lt;hr&gt;+ loadTrajectoryCsv()&lt;br&gt;+ generateHeatmap()&lt;br&gt;+ saveHeatmapImage()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1495" y="320" width="185" height="115" as="geometry"/>
+        </mxCell>
+
+        <!-- Data entities row 1 -->
+        <mxCell id="User" value="&lt;b&gt;User&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ full_name&lt;br&gt;+ email&lt;br&gt;+ password_hash&lt;br&gt;+ role&lt;br&gt;+ status&lt;br&gt;+ created_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="775" width="135" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="CameraSource" value="&lt;b&gt;CameraSource&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ name&lt;br&gt;+ location&lt;br&gt;+ description&lt;br&gt;+ status&lt;br&gt;+ created_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="245" y="775" width="145" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="Video" value="&lt;b&gt;Video&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ camera_source_id&lt;br&gt;+ filename&lt;br&gt;+ original_name&lt;br&gt;+ path&lt;br&gt;+ status&lt;br&gt;+ processed_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="420" y="775" width="145" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="Zone" value="&lt;b&gt;Zone&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ camera_source_id&lt;br&gt;+ zone_name&lt;br&gt;+ zone_type&lt;br&gt;+ coordinates&lt;br&gt;+ threshold" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="595" y="775" width="145" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="AnalysisJob" value="&lt;b&gt;AnalysisJob&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ video_id&lt;br&gt;+ camera_source_id&lt;br&gt;+ status&lt;br&gt;+ total_people&lt;br&gt;+ zone_counts&lt;br&gt;+ transitions&lt;br&gt;+ media_paths" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="770" y="775" width="155" height="155" as="geometry"/>
+        </mxCell>
+        <mxCell id="PedestrianTrack" value="&lt;b&gt;PedestrianTrack&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ analysis_job_id&lt;br&gt;+ anonymous_track_id&lt;br&gt;+ start_frame&lt;br&gt;+ end_frame" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="955" y="775" width="155" height="115" as="geometry"/>
+        </mxCell>
+
+        <!-- Data entities row 2 -->
+        <mxCell id="TrajectoryPoint" value="&lt;b&gt;TrajectoryPoint&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ pedestrian_track_id&lt;br&gt;+ frame_index&lt;br&gt;+ x&lt;br&gt;+ y&lt;br&gt;+ zone_name" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="965" width="155" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="FlowRecord" value="&lt;b&gt;FlowRecord&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ analysis_job_id&lt;br&gt;+ from_zone&lt;br&gt;+ to_zone&lt;br&gt;+ transition_count" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="265" y="965" width="145" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZoneCount" value="&lt;b&gt;ZoneCount&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ analysis_job_id&lt;br&gt;+ zone_name&lt;br&gt;+ people_count" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="440" y="965" width="145" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="Alert" value="&lt;b&gt;Alert&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ analysis_job_id&lt;br&gt;+ zone_name&lt;br&gt;+ threshold&lt;br&gt;+ actual_count&lt;br&gt;+ severity&lt;br&gt;+ status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="615" y="965" width="145" height="135" as="geometry"/>
+        </mxCell>
+        <mxCell id="Report" value="&lt;b&gt;Report&lt;/b&gt;&lt;hr&gt;+ id&lt;br&gt;+ analysis_job_id&lt;br&gt;+ camera_source_id&lt;br&gt;+ generated_by&lt;br&gt;+ format&lt;br&gt;+ filters" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=12;align=left;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="965" width="145" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- Relationships -->
+        <mxCell id="e1" value="uses" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="DashboardClient" target="ApiClient"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" value="renders" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="DashboardClient" target="ChartRenderer"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" value="HTTP calls" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="ApiClient" target="ExpressApp"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" value="creates" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="Server" target="ExpressApp"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" value="mounts" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="ExpressApp" target="AuthRoutes"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" value="mounts" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="ExpressApp" target="AnalyticsRoutes"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" value="uses" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="AuthRoutes" target="AuthService"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" value="uses" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="VideoRoutes" target="UploadMiddleware"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e9" value="uses" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="VideoRoutes" target="VideoProcessingService"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e10" value="executes" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="VideoProcessingService" target="PreviewExtractor"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e11" value="executes" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="VideoProcessingService" target="PedestrianTracker"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e12" value="executes" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="VideoProcessingService" target="AnalyticsEngine"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e13" value="executes" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="VideoProcessingService" target="HeatmapGenerator"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e14" value="persists" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="VideoProcessingService" target="AnalysisJob"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e15" value="queries" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="AnalyticsRoutes" target="AnalysisJob"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e16" value="exports" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="ReportRoutes" target="Report"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Entity associations -->
+        <mxCell id="a1" value="1..*" style="endArrow=block;startArrow=none;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="CameraSource" target="Video"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a2" value="1..*" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="CameraSource" target="Zone"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a3" value="1..*" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="Video" target="AnalysisJob"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a4" value="1..*" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="AnalysisJob" target="PedestrianTrack"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a5" value="1..*" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="PedestrianTrack" target="TrajectoryPoint"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a6" value="1..*" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="AnalysisJob" target="FlowRecord"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a7" value="1..*" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="AnalysisJob" target="ZoneCount"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a8" value="1..*" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="AnalysisJob" target="Alert"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a9" value="generates" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="User" target="Report"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a10" value="acknowledges" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;fontSize=11;" edge="1" parent="1" source="User" target="Alert"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="note" value="Note: Several JavaScript modules are implemented as function-based route/service modules. They are represented as UML classes here to show responsibilities, operations, and relationships in the system design." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=12;fontColor=#6D7285;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1140" width="1650" height="35" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -24,6 +24,7 @@ async function run() {
     const state = {
         token: "",
         cameraId: null,
+        smokeCameraId: null,
         completedJobId: null
     };
 
@@ -96,11 +97,12 @@ async function run() {
         assert(response.status === 201, `Expected camera create success, received ${response.status}`);
         assert(body.id, "Expected camera id");
         state.cameraId = body.id;
+        state.smokeCameraId = body.id;
     });
 
     await record("TC-05 zones can be saved and loaded", async () => {
         const zones = {
-            camera_source_id: state.cameraId,
+            camera_source_id: state.smokeCameraId,
             grid_size: 2,
             threshold: 10,
             zones: [
@@ -121,13 +123,68 @@ async function run() {
         });
         assert(save.response.ok, `Expected zone save success, received ${save.response.status}`);
 
-        const { response, body } = await request(`/api/zones?camera_source_id=${state.cameraId}`, {
+        const { response, body } = await request(`/api/zones?camera_source_id=${state.smokeCameraId}`, {
             headers: authHeaders()
         });
         assert(response.ok, `Expected zones, received ${response.status}`);
         assert(Array.isArray(body), "Expected zones array");
         assert(body.length === 4, `Expected 4 zones, received ${body.length}`);
         assert("coordinates" in body[0], "Expected coordinates metadata");
+    });
+
+    await record("TC-ZONE-02 invalid zone geometry is rejected", async () => {
+        const invalidZones = {
+            camera_source_id: state.smokeCameraId,
+            grid_size: 1,
+            threshold: 10,
+            zones: [
+                {
+                    name: "Invalid Empty Zone",
+                    type: "monitoring",
+                    grid_position: 0,
+                    threshold: 10,
+                    coordinates: {
+                        shape: "polygon",
+                        points: []
+                    }
+                }
+            ]
+        };
+
+        const { response } = await request("/api/zones", {
+            method: "POST",
+            headers: {
+                ...authHeaders(),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(invalidZones)
+        });
+
+        assert(
+            response.status >= 400,
+            `Expected invalid zone geometry to be rejected, received ${response.status}`
+        );
+    });
+
+    await record("TC-REPROCESS-01 invalid zone config blocks reprocess", async () => {
+        const { response, body } = await request("/api/reprocess", {
+            method: "POST",
+            headers: {
+                ...authHeaders(),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                cameraSourceId: state.smokeCameraId
+            })
+        });
+
+        const errorText = typeof body === "string" ? body : body.error || "";
+
+        assert(response.status >= 400, `Expected reprocess to reject invalid zone config, received ${response.status}`);
+        assert(
+            /zone|geometry|coordinate|invalid/i.test(errorText),
+            `Expected invalid zone validation error, received "${errorText || response.status}"`
+        );
     });
 
     await record("TC-06 multicamera overview is available", async () => {
@@ -227,6 +284,13 @@ async function run() {
         assert(response.ok, `Expected PDF report, received ${response.status}`);
         assert(buffer.subarray(0, 4).toString() === "%PDF", "Expected PDF header");
     });
+
+    if (state.smokeCameraId) {
+        await request(`/api/cameras/${state.smokeCameraId}`, {
+            method: "DELETE",
+            headers: authHeaders()
+        });
+    }
 
     for (const result of results) {
         console.log(`${result.status} ${result.name}${result.error ? ` - ${result.error}` : ""}`);

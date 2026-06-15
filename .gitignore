@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+__pycache__/
+*.py[cod]
+
+# Local runtime uploads and generated analysis media
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/public/heatmap.mp4
+backend/public/media/jobs/*/heatmap.mp4
+backend/public/media/jobs/*/

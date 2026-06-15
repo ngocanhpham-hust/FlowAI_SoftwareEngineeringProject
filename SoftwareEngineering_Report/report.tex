@@ -462,13 +462,15 @@ Therefore, the business processes below are described in a way that reflects the
     \item Display people count and zone occupancy charts
     \item Display transition matrix or flow summary
     \item Show processed video with detection and tracking results
+    \item Show generated heatmap video and heatmap image fallback
     \item Summarize key findings for users
     \item Export analysis results when requested
 \end{itemize}
 &
 \begin{itemize}[leftmargin=*, nosep]
     \item Analytics dashboard
-    \item Processed video preview
+    \item Processed video playback
+    \item Heatmap video playback
     \item Zone count charts
     \item Transition matrix
     \item CSV or report file
@@ -665,7 +667,7 @@ Implemented \\
 
 4.4 & 
 Heatmap generation & 
-Generate a simple heatmap showing areas where pedestrians frequently appear or move through. The heatmap is used for visualization rather than precise scientific measurement. & 
+Generate heatmap media showing areas where pedestrians frequently appear or move through. The current implementation stores both a heatmap image and a heatmap video for visualization rather than precise scientific measurement. & 
 Implemented \\
 \hline
 
@@ -677,7 +679,7 @@ Implemented \\
 
 5.1 & 
 Dashboard analytics & 
-Display analysis results through a dashboard, including zone statistics, charts, heatmap, transition information, and alerts. & 
+Display analysis results through a dashboard, including zone statistics, charts, heatmap video, transition information, and alerts. & 
 Implemented \\
 \hline
 
@@ -888,7 +890,7 @@ Final report, diagrams, screenshots, user guide, presentation slides, and demo r
 \hline
 
 7 & UC-07 & View dashboard 
-& View processed video, KPI cards, crowded zone, popular path, system status, heatmap preview, and camera-specific analysis results. 
+& View processed video, KPI cards, crowded zone, popular path, system status, heatmap video, and camera-specific analysis results. 
 & Administrator, Analyst, Security Staff \\
 \hline
 
@@ -898,7 +900,7 @@ Final report, diagrams, screenshots, user guide, presentation slides, and demo r
 \hline
 
 9 & UC-09 & View analytics results 
-& View zone counts, line-zone statistics, movement timeline, heatmap, transition flow, and activity information. 
+& View zone counts, line-zone statistics, movement timeline, heatmap media, transition flow, and activity information. 
 & Administrator, Analyst \\
 \hline
 
@@ -1113,7 +1115,7 @@ Main flow &
     \item The system validates that a camera and video file are selected.
     \item The system uploads the video and starts the analysis job.
     \item The system displays processing status while the job is running.
-    \item When processing finishes, the dashboard is updated with processed video, total people, heatmap, and available analytics.
+    \item When processing finishes, the dashboard is updated with processed video, total people, heatmap video, and available analytics.
 \end{enumerate} \\
 \hline
 Alternative flow &
@@ -1214,7 +1216,7 @@ Use case name & View dashboard \\
 \hline
 Actor & Administrator, Analyst, Security Staff \\
 \hline
-Description & Allows users to view processed video, KPI cards, crowded zone, popular path, system status, heatmap preview, and camera-specific analysis results. \\
+Description & Allows users to view processed video, KPI cards, crowded zone, popular path, system status, heatmap video, and camera-specific analysis results. \\
 \hline
 Precondition & The user is logged in. A completed analysis job is required to show processed media and analytics. \\
 \hline
@@ -1224,7 +1226,7 @@ Main flow &
     \item User selects a camera source from the camera selector.
     \item The system loads the latest completed analysis result for the selected camera.
     \item The system displays total people, crowded zone, popular path, and congestion status.
-    \item The system displays processed video and heatmap preview when available.
+    \item The system displays processed video and heatmap video when available.
     \item The system updates dashboard information according to the selected camera or opened historical job.
 \end{enumerate} \\
 \hline
@@ -1258,7 +1260,7 @@ Main flow &
 \begin{enumerate}
     \item User opens the Multicam tab.
     \item The system displays registered camera sources.
-    \item For each camera with a completed job, the system displays preview, total people, peak zone, popular path, and alert count.
+    \item For each camera with a completed job, the system displays processed video, total people, peak zone, popular path, and alert count.
     \item User selects a camera card to open its latest completed job on the Dashboard.
 \end{enumerate} \\
 \hline
@@ -1283,7 +1285,7 @@ Use case name & View analytics results \\
 \hline
 Actor & Administrator, Analyst \\
 \hline
-Description & Allows users to view polygon-zone counts, line-zone statistics, movement timeline, heatmap, transition flow, alerts, and activity information for completed analysis jobs. \\
+Description & Allows users to view polygon-zone counts, line-zone statistics, movement timeline, heatmap media, transition flow, alerts, and activity information for completed analysis jobs. \\
 \hline
 Precondition & User is logged in as Administrator or Analyst. A completed job is available for the selected camera or historical job. \\
 \hline
@@ -1483,7 +1485,7 @@ Postcondition & Report output is generated and report metadata is stored. \\
 
 \subsection*{Functionality}
 \begin{itemize}
-    \item The system shall support multiple user roles, including Administrator, Security Staff/Operator, and Data Analyst/Facility Planner.
+    \item The system shall support multiple user roles, including Administrator, Security Staff/ Operator, and Data Analyst/Facility Planner.
     \item Management functions shall only be available to authenticated users with appropriate permissions.
     \item The system shall validate user input before saving it to the database.
     \item All functions that interact with the database shall have error-handling mechanisms.
@@ -1493,7 +1495,7 @@ Postcondition & Report output is generated and report metadata is stored. \\
 
 \subsection*{Usability}
 \begin{itemize}
-    \item The interface shall be understandable for non-technical administrators and operators.
+    \item The interface shall be understandable for non-technical administrators, analysts, and staff users.
     \item The dashboard shall present analytics using clear KPI cards, charts, heatmaps, tables, status messages, and job history views.
     \item Error messages shall clearly indicate the field or operation causing the error.
     \item The interface language confirmed for the final prototype is English.
@@ -1573,7 +1575,7 @@ Entity classes represent persistent business data stored in PostgreSQL and gener
 \hline
 LoginPage & Provides the login interface for authenticated access to the system. \\
 \hline
-UserManagementPage & Allows the administrator to create, view, update, and deactivate user accounts stored in SQLite. \\
+UserManagementPage & Allows the administrator to create, view, update, and deactivate user accounts stored in PostgreSQL. \\
 \hline
 CameraSourcePage & Allows administrators to create, update, delete, and view logical camera sources. \\
 \hline
@@ -1584,17 +1586,17 @@ ZoneConfigurationPage & Allows administrators to draw polygon or line zones on a
 AnalysisJobPage & Allows users to view analysis job history, job status, generated media, and detailed analytics for each processed
 video. \\
 \hline
-DashboardPage & Displays the main analysis results, including KPI cards, processed video, realtime video-window statistics, zone count charts, transition flow, heatmap, and congestion status. \\
+DashboardPage & Displays the main analysis results, including KPI cards, processed video, realtime video-window statistics, zone count charts, transition flow, heatmap video, and congestion status. \\
 \hline
 MultiCameraOverview-Page & Displays the latest completed analysis result for each logical camera source and allows users to compare cameras. \\
 \hline
-HeatmapPage & Displays the generated heatmap image for a completed analysis job. \\
+HeatmapPage & Displays the generated heatmap video for a completed analysis job, with a heatmap image available as a static fallback. \\
 \hline
 FlowAnalyticsPage & Displays zone counts, transition flow, density score, dwell time, and timeline analytics. \\
 \hline
 AlertMonitoringPage & Displays generated alerts when a configured zone threshold is exceeded and allows alert acknowledgement. \\
 \hline
-ReportExportPage & Allows administrators and analysts to export completed analysis results as CSV, printable HTML, or backend-generated PDF reports. \\
+ReportExportPage & Allows administrators and analysts to export completed analysis results as CSV, or backend-generated PDF reports. \\
 \hline
 \end{longtable}
 
@@ -1759,7 +1761,7 @@ The analysis class diagram shows the relationships between boundary classes, con
 In this system, user-facing pages interact with backend controller classes through REST APIs, while controller classes access or update persistent entity classes through the PostgreSQL database layer.
 The computer vision processing logic is coordinated through the analysis job and pedestrian processing controllers.
 The dashboard does not directly process raw video frames.
-Instead, it reads already-computed analytics such as zone counts, transition flow, density scores, dwell times, alerts, processed video paths, preview image paths, and heatmap paths.
+Instead, it reads already-computed analytics such as zone counts, transition flow, density scores, dwell times, alerts, processed video paths, preview image paths, heatmap image paths, and heatmap video paths.
 
 \begin{figure}[H]
     \centering
@@ -1794,7 +1796,7 @@ Zone & Stores zone name, zone type, polygon or line coordinates, camera source, 
 \hline
 AnalysisJob & Stores processing status, aggregate analytics, generated media paths, start time, finish time, and error message for each video analysis execution. \\
 \hline
-HeatmapOutput & Represents the generated heatmap image for an analysis job. It is implemented as the heatmap path stored in the analysis job record. \\
+HeatmapOutput & Represents generated heatmap media for an analysis job. It is implemented through the heatmap image path and heatmap video path stored in the analysis job record. \\
 \hline
 PedestrianTrack & Stores anonymous track information generated during detection and tracking. \\
 \hline
@@ -1885,7 +1887,7 @@ Other authenticated users can view available camera sources according to their d
 
 An administrator selects a camera source and uploads an offline video file.
 The backend stores the uploaded file, creates a video metadata record, and creates a new analysis job with processing status.
-The processing pipeline then generates a preview image, runs YOLO-based pedestrian detection, assigns temporary anonymous track IDs using ByteTrack-based tracking, computes analytics, generates a heatmap, and stores the resulting media paths.
+The processing pipeline then generates a preview image, runs YOLO-based pedestrian detection, assigns temporary anonymous track IDs using ByteTrack-based tracking, computes analytics, generates heatmap image and heatmap video outputs, and stores the resulting media paths.
 If processing succeeds, the analysis job is marked as completed.
 If processing fails, the job is marked as failed and the error message is stored.
 
@@ -1908,12 +1910,12 @@ First, it extracts a preview frame for zone configuration and display.
 Then it detects pedestrians using a YOLO-based detector and assigns anonymous temporary track IDs using ByteTrack-based tracking.
 The tracking output is saved as trajectory data and persisted into PostgreSQL as pedestrian tracks and trajectory points.
 Based on these trajectory points and configured zones, the system computes total people, zone counts, transition flow, timeline statistics, dwell time estimates, density scores, congestion status, and generated alerts.
-A heatmap image is also generated as a visualization of frequent pedestrian presence and movement.
+A heatmap image and a heatmap video are also generated as visualizations of frequent pedestrian presence and movement.
 
 \subsection*{Scenario 7: Dashboard Analytics and Realtime Video-Window Statistics}
 
 After an analysis job is completed, the user opens the dashboard.
-The dashboard retrieves stored analytics results from the backend, including total people, most crowded zone, popular path, zone counts, transition flow, heatmap path, processed video path, preview image path, density scores, dwell times, and congestion status.
+The dashboard retrieves stored analytics results from the backend, including total people, most crowded zone, popular path, zone counts, transition flow, heatmap image path, heatmap video path, processed video path, preview image path, density scores, dwell times, and congestion status.
 
 While the processed video is playing, the frontend can call a realtime statistics endpoint with the current video time.
 The backend converts the video time to a frame index and reads trajectory points within a nearby frame window.
@@ -1932,7 +1934,7 @@ An alert can be acknowledged, and the system stores the acknowledging user and a
 
 Users can view historical analysis jobs and inspect job details.
 The job detail view includes camera metadata, video metadata, job status, output media paths, zone count rows, flow rows, alerts, and track summary.
-The multi-camera overview shows all logical camera sources with the latest completed analysis result for each camera.
+The multi-camera overview shows all logical camera sources with the latest completed analysis result and processed video for each camera.
 This allows users to compare different locations and open the latest job for a selected camera source.
 
 \subsection*{Scenario 10: Report Export}
@@ -1969,7 +1971,7 @@ The high-level architecture contains the following layers:
 
     \item \textbf{Analytics layer}: computes pedestrian statistics such as zone counts, line-crossing counts, dwell time, density estimation, transition flow between zones, crowded-area alerts, timeline statistics, and summary analytics used by the dashboard and reports.
 
-    \item \textbf{Database/File storage layer}: stores user accounts, uploaded videos, camera metadata, zone configurations, analysis jobs, trajectory records, analytics results, alerts, and exported report metadata. The system uses PostgreSQL as the primary relational database and local file storage for videos, generated heatmaps, preview frames, and exported reports.
+    \item \textbf{Database/File storage layer}: stores user accounts, uploaded videos, camera metadata, zone configurations, analysis jobs, trajectory records, analytics results, alerts, and exported report metadata. The system uses PostgreSQL as the primary relational database and local file storage for videos, generated heatmap images, generated heatmap videos, preview frames, and exported reports.
 
 \end{itemize}
 
@@ -1984,7 +1986,7 @@ The modular separation between the frontend, backend, analytics pipeline, and st
 \textbf{Component} & \textbf{Responsibility} \\
 \hline
 
-Authentication module & Handles login, session token creation, password verification, logout, and role-based access control for \texttt{admin}, \texttt{operator}, and \texttt{analyst}. \\
+Authentication module & Handles login, session token creation, password verification, logout, and role-based access control for \texttt{admin}, \texttt{staff}, and \texttt{analyst}. \\
 \hline
 
 User management module & Allows administrators to create user accounts, update roles, and activate or deactivate accounts. \\
@@ -2014,7 +2016,7 @@ Analytics module & Computes zone counts, line-crossing statistics, density score
 Alert module & Generates congestion or overcrowding alerts when zone density values exceed configured thresholds and supports alert acknowledgement. \\
 \hline
 
-Dashboard and visualization module & Displays KPI cards, processed video, camera overview, zone statistics, heatmap, movement timeline, transition flow, alerts, and job results. \\
+Dashboard and visualization module & Displays KPI cards, processed video, camera overview, zone statistics, heatmap video, movement timeline, transition flow, alerts, and job results. \\
 \hline
 
 History module & Stores and displays previous analysis jobs, job details, processed media paths, zone counts, transition records, and track summaries. \\
@@ -2023,7 +2025,7 @@ History module & Stores and displays previous analysis jobs, job details, proces
 Report module & Exports analytics results as CSV, printable HTML reports, and backend-generated PDF reports; also maintains generated report history. \\
 \hline
 
-Storage module & Stores users, cameras, zones, jobs, analytics results, alerts, and report metadata in PostgreSQL, while videos, previews, heatmaps, and reports are stored as local files. \\
+Storage module & Stores users, cameras, zones, jobs, analytics results, alerts, and report metadata in PostgreSQL, while videos, previews, heatmap images, heatmap videos, and reports are stored as local files. \\
 \hline
 
 \end{longtable}
@@ -2159,6 +2161,8 @@ processed\_video\_path & TEXT & Nullable & Processed video path \\
 \hline
 heatmap\_path & TEXT & Nullable & Heatmap image path \\
 \hline
+heatmap\_video\_path & TEXT & Nullable & Heatmap video path \\
+\hline
 preview\_path & TEXT & Nullable & Preview image path \\
 \hline
 error\_message & TEXT & Nullable & Failure reason \\
@@ -2188,7 +2192,7 @@ The frontend of the system is implemented as a static web dashboard and is serve
     
     \item \textbf{app.js}: implements frontend behavior such as authentication, role-based interface control, tab switching, REST API calls, camera selection, video upload, dashboard refresh, multi-camera monitoring, alert acknowledgement, report generation, job history viewing, and zone drawing/configuration.
     
-    \item \textbf{style.css}: defines the visual layout and responsive design of the dashboard, including sidebar, topbar, cards, panels, forms, tables, video preview area, heatmap display, zone editor, and modal components.
+    \item \textbf{style.css}: defines the visual layout and responsive design of the dashboard, including sidebar, topbar, cards, panels, forms, tables, video preview area, heatmap video display, zone editor, and modal components.
     
     \item \textbf{External libraries}: the frontend uses Chart.js to render analytics charts such as zone count charts and timeline charts.
 \end{itemize}
@@ -2218,7 +2222,7 @@ The backend source code is currently organized under the \texttt{backend/src} di
     \item \textbf{backend/src/services}: contains reusable backend logic.
     \begin{itemize}
         \item \texttt{authService.js}: password hashing, login validation, default user seeding, JWT-like session authentication, and role-based authorization middleware.
-        \item \texttt{VideoProcessingService.js}: coordinates the video processing workflow by calling Python scripts, generating preview/video/heatmap outputs, reading trajectory data, saving analysis jobs, alerts, zone counts, flow records, and trajectory points to PostgreSQL.
+        \item \texttt{VideoProcessingService.js}: coordinates the video processing workflow by calling Python scripts, generating preview, processed video, heatmap image, and heatmap video outputs, reading trajectory data, saving analysis jobs, alerts, zone counts, flow records, and trajectory points to PostgreSQL.
         \item \texttt{analyticsService.js}: provides analytics retrieval logic.
         \item \texttt{videoService.js}: provides video creation and processed-status update logic.
         \item \texttt{zoneService.js}: provides zone save, load, and delete logic.
@@ -2241,7 +2245,7 @@ The backend source code is currently organized under the \texttt{backend/src} di
     
     \item \textbf{backend/outputs}: stores runtime metadata such as current context and zone configuration files.
     
-    \item \textbf{backend/public/media/jobs}: stores generated media for each analysis job, including preview images, processed videos, heatmaps, trajectory CSV files, and statistics JSON files.
+    \item \textbf{backend/public/media/jobs}: stores generated media for each analysis job, including preview images, processed videos, heatmap images, heatmap videos, trajectory CSV files, and statistics JSON files.
 \end{itemize}
 
 \subsection{Computer Vision Processing Package Design}
@@ -2255,13 +2259,13 @@ The computer vision processing layer is implemented in Python and located in the
     
     \item \textbf{analytics.py}: reads trajectory CSV data and computes analytics such as total people, zone counts, transitions, timeline data, dwell time, popular path, and congestion status.
     
-    \item \textbf{heatmap.py}: generates a heatmap image from pedestrian trajectory points.
+    \item \textbf{heatmap.py}: generates a heatmap image and a heatmap video from pedestrian trajectory points.
     
     \item \textbf{zones.py}: loads and normalizes zone configuration, maps tracked points to configured zones, and supports grid-based or polygon-based zone geometry.
     
     \item \textbf{demo\_media.py}: generates demo media used by the demo data workflow.
     
-    \item \textbf{Runtime outputs}: each processing job can generate a preview image, processed video, heatmap image, trajectory CSV file, and statistics JSON file. These outputs are stored under \texttt{backend/public/media/jobs/<jobId>} and referenced by records in PostgreSQL.
+    \item \textbf{Runtime outputs}: each processing job can generate a preview image, processed video, heatmap image, heatmap video, trajectory CSV file, and statistics JSON file. These outputs are stored under \texttt{backend/public/media/jobs/<jobId>} and referenced by records in PostgreSQL.
 \end{itemize}
 
 \section{Detailed Class Design}
@@ -2318,7 +2322,7 @@ The system interface is designed as a single-page dashboard application. Users l
 \hline
 Login Screen & Allows users to log in with email and password. Demo accounts are shown for class demonstration. \\
 \hline
-Dashboard & Displays KPI cards, processed video, heatmap preview, congestion status, and selected job results. \\
+Dashboard & Displays KPI cards, processed video, heatmap video, congestion status, and selected job results. \\
 \hline
 Sources & Allows authorized users to create and manage logical camera sources and upload videos. \\
 \hline
@@ -2359,17 +2363,17 @@ KPI cards & Displays summary information including total detected people, crowde
 \hline
 Processed video panel & Shows the processed video with pedestrian detection and tracking results. \\
 \hline
-Heatmap analytics panel & Displays the generated heatmap image showing pedestrian concentration areas. \\
+Heatmap analytics panel & Displays the generated heatmap video showing pedestrian concentration areas. \\
 \hline
 \end{longtable}
 
 \subsection{Displayed Data}
 
-The dashboard displays results generated from the latest completed analysis job. The main data includes total detected pedestrians, the most crowded zone, the most common movement path, congestion status, processed video path, and heatmap path. These values are retrieved from the backend and updated according to the selected camera source.
+The dashboard displays results generated from the latest completed analysis job. The main data includes total detected pedestrians, the most crowded zone, the most common movement path, congestion status, processed video path, heatmap image path, and heatmap video path. These values are retrieved from the backend and updated according to the selected camera source.
 
 \subsection{User Interaction}
 
-The user first selects a camera source from the dropdown list. If a completed analysis job exists, the dashboard loads its analytics result automatically. Administrators can upload a new video from the dashboard header. After the backend finishes processing the video, the dashboard can display the updated processed video, KPI values, and heatmap result.
+The user first selects a camera source from the dropdown list. If a completed analysis job exists, the dashboard loads its analytics result automatically. Administrators can upload a new video from the dashboard header. After the backend finishes processing the video, the dashboard can display the updated processed video, KPI values, and heatmap video result.
 
 \subsection{Role-Based Access}
 
@@ -2487,7 +2491,7 @@ The demo program implements the main workflow of the project. Confirmed implemen
 \hline
 8 & Transition flow analytics & Implemented & Flow records persisted by backend \\
 \hline
-9 & Heatmap visualization & Implemented & \path{ai_services/heatmap.py} \\
+9 & Heatmap image and video visualization & Implemented & \path{ai_services/heatmap.py} \\
 \hline
 10 & Alert threshold and alert list & Implemented & Created and saved during job persistence \\
 \hline
@@ -2591,13 +2595,89 @@ Database/scripts & 159 & 1 & 5,310 bytes & Excluded \\
 % =====================================================
 \chapter{SYSTEM TESTING}
 
-\section{Testing Implemented Functions}
+\section{Testing Purpose and Strategy}
 
-Testing technique: API smoke testing, black-box testing, and functional testing.
+The purpose of system testing is not to prove that the prototype has no defects. Instead, testing is used to evaluate whether the implemented system behaves correctly under normal cases, invalid cases, boundary cases, integration cases, and acceptance-level scenarios.
 
-% Suggested techniques include black-box testing, functional testing, equivalence partitioning, boundary value analysis, integration testing, and acceptance testing.
+The test suite is designed based on the main use cases and actual implemented modules of the Smart Pedestrian Flow Monitoring and Analytics System. The tested scope includes authentication, role-based access control, camera source management, video upload, zone configuration, pedestrian analysis, dashboard visualization, alert management, and report export.
 
-Testing environment: Localhost with Node.js, Python 3 (ultralytics, opencv), PostgreSQL, and a modern web browser.
+Testing contribution: Vu Thuy Linh was responsible for API/UI testing, smoke testing, end-to-end flow validation, bug reporting, and fix verification. The results below focus on validating the implemented prototype under local demo conditions rather than claiming full production readiness.
+
+Testing environment: Localhost with Node.js, Python 3, PostgreSQL, and a modern web browser.
+
+\section{Test Status Definitions}
+
+Only three statuses are used in this chapter:
+
+\begin{longtable}{|p{3.4cm}|p{10.2cm}|}
+\hline
+\rowcolor{HeaderBlue}
+\textbf{Status} & \textbf{Meaning} \\
+\hline
+Passed & The actual result matches the expected result in the confirmed local demo environment. \\
+\hline
+Failed & The actual result does not match the expected result, or the tested feature is not supported in the current prototype. \\
+\hline
+Pending & The test case is valid, but it was not fully executed because the team did not have enough data, time, or environment setup. \\
+\hline
+\end{longtable}
+
+\section{API Smoke Test Execution}
+
+The automated API smoke test was executed with the following command:
+
+\begin{lstlisting}[language=bash]
+BASE_URL=http://127.0.0.1:3000 npm run test:api
+\end{lstlisting}
+
+The executed smoke test contains 11 core API checks. The result was:
+
+\begin{lstlisting}
+PASS TC-01 invalid login is rejected
+PASS TC-02 admin login succeeds
+PASS TC-03 camera list is available
+PASS TC-04 smoke camera can be created
+PASS TC-05 zones can be saved and loaded
+PASS TC-06 multicamera overview is available
+PASS TC-07 completed job can be discovered
+PASS TC-08 latest stats expose analytics
+PASS TC-09 job detail exposes analytics
+PASS TC-10 CSV report export works
+PASS TC-11 PDF report endpoint works
+\end{lstlisting}
+
+The smoke test validates the main backend flow quickly. It does not replace all manual UI testing or all edge-case testing.
+
+\section{Test Case Summary}
+
+\begin{longtable}{|p{2.5cm}|p{5.1cm}|p{2.3cm}|p{2.8cm}|p{1.9cm}|}
+\hline
+\rowcolor{HeaderBlue}
+\textbf{Test ID} & \textbf{Test case} & \textbf{Related UC} & \textbf{Type} & \textbf{Status} \\
+\hline
+TC-AUTH-01 & Login with invalid password & UC-02 & Functional / Negative & Passed \\
+\hline
+TC-VIDEO-01 & Upload unsupported video file & UC-04 & Validation / Negative & Passed \\
+\hline
+TC-ANALYSIS-01 & Run analysis without configured zones & UC-04, UC-05 & Business rule / Boundary & Passed \\
+\hline
+TC-FLOW-01 & Detect zone-to-zone transition & UC-09 & Analytics / Functional & Passed \\
+\hline
+TC-ALERT-01 & Generate overcrowding alert & UC-11 & Functional / Boundary & Passed \\
+\hline
+TC-MULTICAM-01 & Display processed video in multicamera overview & UC-08 & UI/API Integration & Passed \\
+\hline
+TC-HEATMAP-01 & Generate and display heatmap video & UC-07, UC-09 & End-to-end media & Passed \\
+\hline
+TC-ZONE-02 & Reject zone with empty or invalid geometry & UC-05 & Boundary / Negative & Failed \\
+\hline
+TC-REPROCESS-01 & Prevent reprocessing with invalid zone configuration & UC-05, UC-06 & Integration / Business rule & Failed \\
+\hline
+TC-NFR-01 & Verify anonymous tracking and no face identity storage & Privacy NFR & Non-functional & Passed \\
+\hline
+\end{longtable}
+
+\section{Detailed Test Cases}
 
 \subsection{Test Case 1: Login with Invalid Password}
 \begin{longtable}{|p{4cm}|p{10cm}|}
@@ -2610,7 +2690,7 @@ Current status & $\boxtimes$ Passed \quad $\square$ Failed \quad $\square$ Pendi
 \hline
 Title & Check login with an incorrect password \\
 \hline
-Description & Verify that the system prevents access and displays an error when a user enters a valid email but an incorrect password. \\
+Description & Verify that the system prevents access when a user enters a valid email but an incorrect password. \\
 \hline
 Approach & Security/functional testing -- invalid case \\
 \hline
@@ -2631,7 +2711,7 @@ Approach & Security/functional testing -- invalid case \\
 \hline
 \end{longtable}
 
-Concluding remark: The system successfully authenticates users via the authService and prevents unauthorized access when invalid credentials are provided..
+Concluding remark: The system successfully prevents unauthorized access when invalid credentials are provided.
 
 \subsection{Test Case 2: Upload Unsupported Video File}
 \begin{longtable}{|p{4cm}|p{10cm}|}
@@ -2655,15 +2735,15 @@ Approach & Functional testing -- invalid case \\
 \rowcolor{HeaderBlue}
 \textbf{Step} & \textbf{Action} & \textbf{Purpose} & \textbf{Expected result} & \textbf{Comment} \\
 \hline
-1 & Open video upload page & Access video upload function & Upload form is displayed & UI Loaded \\
+1 & Open video upload page & Access video upload function & Upload form is displayed & UI loaded \\
 \hline
-2 & Select unsupported file (e.g., .txt or .pdf) & Test validation & File is selected in input & Selected \\
+2 & Select unsupported file such as \texttt{.txt} or \texttt{.pdf} & Test validation & File is selected in input & Selected \\
 \hline
 3 & Click Upload & Submit invalid input & System displays unsupported file error; file is not saved & Blocked \\
 \hline
 \end{longtable}
 
-Concluding remark: The backend middleware (multer) accurately filters file MIME types and safely aborts the upload process for non-video files without crashing.
+Concluding remark: The backend upload middleware filters file MIME types and rejects non-video input without crashing.
 
 \subsection{Test Case 3: Run Analysis Without Configured Zones}
 \begin{longtable}{|p{4cm}|p{10cm}|}
@@ -2676,9 +2756,9 @@ Current status & $\boxtimes$ Passed \quad $\square$ Failed \quad $\square$ Pendi
 \hline
 Title & Check system behavior when analysis is started without configured zones \\
 \hline
-Description & Verify that the system prevents or warns the user before running zone-based analytics without zone definitions. \\
+Description & Verify that the system behaves safely when analysis is started without zone definitions. \\
 \hline
-Approach & Business logic testing -- exception case \\
+Approach & Business rule testing -- boundary case \\
 \hline
 \end{longtable}
 
@@ -2687,15 +2767,15 @@ Approach & Business logic testing -- exception case \\
 \rowcolor{HeaderBlue}
 \textbf{Step} & \textbf{Action} & \textbf{Purpose} & \textbf{Expected result} & \textbf{Comment} \\
 \hline
-1 & Upload/select a valid video & Prepare analysis input & Video is available & Ready \\
+1 & Upload or select a valid video & Prepare analysis input & Video is available & Ready \\
 \hline
-2 & Ensure no zone is configured & Create exception condition & Zone list is empty & Verified \\
+2 & Ensure no zone is configured & Create boundary condition & Zone list is empty & Verified \\
 \hline
-3 & Click Start Analysis & Test business rule & System asks user to configure zones first or marks zone analytics unavailable according to confirmed policy: Proceeds by processing global counts and ignores zone-specific logic. & Handled safely \\
+3 & Run analysis & Test safe behavior & System processes global tracking/counting and leaves zone analytics unavailable or neutral & Handled safely \\
 \hline
 \end{longtable}
 
-Concluding remark: The AI pipeline safely handles empty zone configurations (via zones.json returning empty lists) by still tracking total people accurately while bypassing local zone analytics.
+Concluding remark: The AI pipeline safely handles empty zone configurations by still tracking total people while bypassing zone-specific analytics.
 
 \subsection{Test Case 4: Detect Zone Transition}
 \begin{longtable}{|p{4cm}|p{10cm}|}
@@ -2723,11 +2803,11 @@ Approach & Functional/business logic testing -- valid case \\
 \hline
 2 & Run analysis on sample video & Generate tracks & Track records are created & Executed \\
 \hline
-3 & Inspect transition result & Verify analytics & Flow A $\rightarrow$ B increases when a track moves from A to B & Correct \\
+3 & Inspect transition result & Verify analytics & Flow A $\rightarrow$ B increases when a track moves from A to B & Correct on sample \\
 \hline
 \end{longtable}
 
-Concluding remark: The tracking script successfully determines point-in-polygon status, and the backend analytics accurately groups consecutive unique zones to populate the transition flow records.
+Concluding remark: The tracking script maps points to zones, and the backend analytics groups consecutive unique zones to populate transition flow records.
 
 \subsection{Test Case 5: Generate Overcrowding Alert}
 \begin{longtable}{|p{4cm}|p{10cm}|}
@@ -2736,11 +2816,11 @@ Concluding remark: The tracking script successfully determines point-in-polygon 
 \hline
 Test No. & TC-ALERT-01 \\
 \hline
-Current status & $\boxtimes$Passed \quad $\square$ Failed \quad $\square$ Pending \\
+Current status & $\boxtimes$ Passed \quad $\square$ Failed \quad $\square$ Pending \\
 \hline
 Title & Check alert generation when threshold is exceeded \\
 \hline
-Description & Verify that the system creates an alert when zone count/density exceeds the configured threshold. \\
+Description & Verify that the system creates an alert when zone count exceeds the configured threshold. \\
 \hline
 Approach & Functional testing -- threshold case \\
 \hline
@@ -2751,15 +2831,143 @@ Approach & Functional testing -- threshold case \\
 \rowcolor{HeaderBlue}
 \textbf{Step} & \textbf{Action} & \textbf{Purpose} & \textbf{Expected result} & \textbf{Comment} \\
 \hline
-1 & Configure threshold for Zone A & Prepare alert condition & Threshold is saved (e.g., 10) & Configured \\
+1 & Configure threshold for Zone A & Prepare alert condition & Threshold is saved & Configured \\
 \hline
 2 & Run or load analysis result with count above threshold & Trigger alert logic & Actual value exceeds threshold & Exceeded \\
 \hline
-3 & Open alert page & Verify result & New alert is displayed with zone, time, threshold, and actual value & Triggered \\
+3 & Open alert page & Verify result & New alert is displayed with zone, threshold, actual value, and severity & Triggered \\
 \hline
 \end{longtable}
 
-Concluding remark: The backend saveStatsToJob function correctly evaluates specific zone thresholds against actual counts and automatically inserts warning/danger records into the alerts table.
+Concluding remark: The backend evaluates zone thresholds against actual counts and inserts warning or danger alerts.
+
+\subsection{Test Case 6: Multi-Camera Overview Displays Processed Video}
+\begin{longtable}{|p{4cm}|p{10cm}|}
+\hline
+\rowcolor{HeaderBlue}\textbf{Item} & \textbf{Description} \\
+\hline
+Test No. & TC-MULTICAM-01 \\
+\hline
+Current status & $\boxtimes$ Passed \quad $\square$ Failed \quad $\square$ Pending \\
+\hline
+Title & Check processed video display in multi-camera overview \\
+\hline
+Description & Verify that the Multicam tab displays the latest processed video for camera sources that have completed analysis jobs. \\
+\hline
+Approach & UI/API integration testing -- valid case \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|c|p{3.6cm}|p{3.6cm}|p{3.6cm}|p{2cm}|}
+\hline
+\rowcolor{HeaderBlue}
+\textbf{Step} & \textbf{Action} & \textbf{Purpose} & \textbf{Expected result} & \textbf{Comment} \\
+\hline
+1 & Prepare at least one camera with a completed job & Provide multicamera data & Completed job has processed video path & Ready \\
+\hline
+2 & Open the Multicam tab & Display overview cards & Camera card is rendered & Rendered \\
+\hline
+3 & Inspect the media area & Verify video media & Processed video is displayed instead of only a static preview frame & Video shown \\
+\hline
+\end{longtable}
+
+Concluding remark: The multi-camera overview displays processed video media for logical camera sources. The current scope remains offline logical-camera overview, not synchronized real CCTV streaming.
+
+\subsection{Test Case 7: Heatmap Video Generation and Display}
+\begin{longtable}{|p{4cm}|p{10cm}|}
+\hline
+\rowcolor{HeaderBlue}\textbf{Item} & \textbf{Description} \\
+\hline
+Test No. & TC-HEATMAP-01 \\
+\hline
+Current status & $\boxtimes$ Passed \quad $\square$ Failed \quad $\square$ Pending \\
+\hline
+Title & Check generated heatmap video output \\
+\hline
+Description & Verify that a completed analysis job can generate and expose a heatmap video path for dashboard playback. \\
+\hline
+Approach & End-to-end/API/UI media testing -- valid case \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|c|p{3.6cm}|p{3.6cm}|p{3.6cm}|p{2cm}|}
+\hline
+\rowcolor{HeaderBlue}
+\textbf{Step} & \textbf{Action} & \textbf{Purpose} & \textbf{Expected result} & \textbf{Comment} \\
+\hline
+1 & Upload and process an MP4 demo video & Trigger CV pipeline & Analysis job is completed & Completed \\
+\hline
+2 & Inspect generated media files & Verify output files & \texttt{heatmap.mp4} and \texttt{heatmap.png} are generated under the job media folder & Generated \\
+\hline
+3 & Open dashboard for selected camera & Verify UI playback & Dashboard loads heatmap video when \texttt{heatmap\_video\_path} exists & Works for new jobs \\
+\hline
+\end{longtable}
+
+Concluding remark: Heatmap video generation and dashboard playback work for newly processed jobs. Older jobs created before this feature can still use the heatmap image fallback.
+
+\subsection{Test Case 8: Save Zone with Empty or Invalid Geometry}
+\begin{longtable}{|p{4cm}|p{10cm}|}
+\hline
+\rowcolor{HeaderBlue}\textbf{Item} & \textbf{Description} \\
+\hline
+Test No. & TC-ZONE-02 \\
+\hline
+Current status & $\square$ Passed \quad $\boxtimes$ Failed \quad $\square$ Pending \\
+\hline
+Title & Check validation for invalid zone geometry \\
+\hline
+Description & Verify whether the system rejects zones with empty coordinates or insufficient polygon/line points. \\
+\hline
+Approach & Boundary testing -- negative case \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|c|p{3.6cm}|p{3.6cm}|p{3.6cm}|p{2cm}|}
+\hline
+\rowcolor{HeaderBlue}
+\textbf{Step} & \textbf{Action} & \textbf{Purpose} & \textbf{Expected result} & \textbf{Comment} \\
+\hline
+1 & Add a new zone & Prepare invalid case & Zone editor opens & Ready \\
+\hline
+2 & Do not draw points or draw insufficient points & Test geometry validation & Geometry is invalid & Invalid input \\
+\hline
+3 & Save zones & Verify validation & System should reject invalid geometry & Not fully blocked \\
+\hline
+\end{longtable}
+
+Concluding remark: The current prototype can accept empty or weak zone geometry in some cases. This is a failed validation test within the implemented zone-configuration scope and should be improved by enforcing polygon and line geometry rules before saving.
+
+\subsection{Test Case 9: Reprocess with Invalid Zone Configuration}
+\begin{longtable}{|p{4cm}|p{10cm}|}
+\hline
+\rowcolor{HeaderBlue}\textbf{Item} & \textbf{Description} \\
+\hline
+Test No. & TC-REPROCESS-01 \\
+\hline
+Current status & $\square$ Passed \quad $\boxtimes$ Failed \quad $\square$ Pending \\
+\hline
+Title & Check reprocessing behavior when saved zone configuration is invalid \\
+\hline
+Description & Verify whether the system prevents reprocessing when the selected camera has zones with empty coordinates or insufficient polygon/line points. \\
+\hline
+Approach & Integration and business-rule testing -- invalid configuration case \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|c|p{3.6cm}|p{3.6cm}|p{3.6cm}|p{2cm}|}
+\hline
+\rowcolor{HeaderBlue}
+\textbf{Step} & \textbf{Action} & \textbf{Purpose} & \textbf{Expected result} & \textbf{Comment} \\
+\hline
+1 & Select a camera with an uploaded video & Prepare reprocess input & Latest video is available for the camera & Ready \\
+\hline
+2 & Save a zone with empty or insufficient geometry & Create invalid configuration & System detects invalid zone data & Not detected \\
+\hline
+3 & Trigger reprocess after saving zones & Verify business rule & Reprocessing should be blocked and a validation message should be shown & Not fully blocked \\
+\hline
+\end{longtable}
+
+Concluding remark: The current save-zone workflow can continue to the reprocess step even when zone geometry is weak or empty. This is a failed integration test within the implemented zone configuration and reprocessing scope. A future fix should validate zone geometry before saving and before calling the reprocess API.
 
 \section{Testing Non-Functional Requirements}
 
@@ -2768,15 +2976,15 @@ Concluding remark: The backend saveStatsToJob function correctly evaluates speci
 \rowcolor{HeaderBlue}
 \textbf{Requirement} & \textbf{Test method} & \textbf{Expected result} & \textbf{Status} \\
 \hline
-Usability & Ask user to complete login, upload, configure zones, and view dashboard & User can complete core tasks without detailed technical instruction & Passed \\
+Usability & Ask user to complete login, upload, configure zones, and view dashboard & User can complete core tasks with brief instruction & Passed \\
 \hline
-Performance & Measure processing time for confirmed demo video: sample\_data/mall.mp4 (720p) & Processing time is within confirmed target: Tens of seconds & Passed \\
+Performance & Measure processing time for confirmed short demo video: \texttt{sample\_data/mall.mp4} & Processing is acceptable for short local demo videos & Passed \\
 \hline
-Reliability & Test invalid video, missing zones, empty detection, failed job & System shows clear error/status and does not crash & Passed \\
+Reliability & Test invalid video, missing zones, empty detection, and failed job behavior & System shows clear error/status and does not crash for common cases & Passed \\
 \hline
-Security & Attempt to access protected pages without login & System redirects or denies access & Passed \\
+Security & Attempt invalid login and protected API access without proper role/token & Basic authentication and role checks deny unauthorized access & Passed \\
 \hline
-Privacy & Inspect stored pedestrian data & Only anonymous track IDs and analytics are stored & Passed \\
+Privacy & Inspect stored pedestrian data & Only anonymous track IDs and movement analytics are stored & Passed \\
 \hline
 Maintainability & Review package structure and module separation & UI, API, CV processing, analytics, and data access are separated & Passed \\
 \hline
@@ -2802,7 +3010,7 @@ The system is intended for the following user groups:
 
 \subsection{Scope of Use}
 
-The confirmed scope of the final prototype is a local offline-video pedestrian flow monitoring system. The system allows users to register logical camera sources, upload short MP4 videos, configure polygon or line zones, run YOLOv8-based pedestrian detection and tracking, generate heatmaps and analytics, review alerts, and export reports.
+The confirmed scope of the final prototype is a local offline-video pedestrian flow monitoring system. The system allows users to register logical camera sources, upload short MP4 videos, configure polygon or line zones, run YOLOv8-based pedestrian detection and tracking, generate heatmap images/videos and analytics, review alerts, and export reports.
 
 The following items are outside the current scope:
 
@@ -2830,7 +3038,7 @@ RAM & At least 8 GB RAM is recommended. \\
 \hline
 GPU & Optional. GPU can be used for accelerating YOLOv8 processing speed. \\
 \hline
-Storage & At least 2 GB free space for source code, dependencies, uploaded videos, processed videos, heatmaps, and reports. \\
+Storage & At least 2 GB free space for source code, dependencies, uploaded videos, processed videos, heatmap images/videos, and reports. \\
 \hline
 Camera/video input & Uploaded MP4 videos. The demo includes or supports short mall/crowd videos, preferably 10--60 seconds. \\
 \hline
@@ -2917,7 +3125,7 @@ If the default port is changed in the \texttt{.env} file, the browser URL should
 
 \subsection{CV Service Description}
 
-The computer vision processing pipeline is implemented in Python. It uses OpenCV for video processing and Ultralytics YOLOv8 for pedestrian detection. The pipeline includes preview extraction, detection, tracking, analytics computation, and heatmap generation.
+The computer vision processing pipeline is implemented in Python. It uses OpenCV for video processing and Ultralytics YOLOv8 for pedestrian detection. The pipeline includes preview extraction, detection, tracking, analytics computation, heatmap image generation, and heatmap video generation.
 
 \subsection{CV Service Running Steps}
 
@@ -2996,7 +3204,7 @@ Default demo accounts are:
     \item Select the desired camera.
     \item Review KPI cards such as total people, crowded zone, popular path, and system status.
     \item View the processed video with tracking results.
-    \item View the generated heatmap preview.
+    \item View the generated heatmap video.
 \end{enumerate}
 
 \subsection{View Analytics}
@@ -3013,7 +3221,7 @@ Default demo accounts are:
 
 \begin{enumerate}
     \item Open the \textbf{Multicam} tab.
-    \item Review the registered camera sources.
+    \item Review the registered camera sources and their latest processed videos.
     \item Open the latest completed job of a selected camera.
     \item Compare camera-level results when multiple logical cameras are available.
 \end{enumerate}

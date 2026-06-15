@@ -296,7 +296,8 @@ select {
     place-items: center;
 }
 
-.multicam-media img {
+.multicam-media img,
+.multicam-media video {
 
     width: 100%;
 
@@ -880,6 +881,43 @@ video {
     border-radius: 8px;
 }
 
+.heatmap-video-wrapper {
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    background: #101114;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+}
+
+#heatmapVideo {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+
+    background: #101114;
+}
+
+.heatmap-video-wrapper #heatmapImage {
+
+    height: 100%;
+
+    object-fit: contain;
+
+    display: none;
+}
+
 /* ===================================== */
 /* ANALYTICS */
 /* ===================================== */
@@ -1191,7 +1229,8 @@ canvas {
     animation: fadeUp 0.25s ease;
 }
 
-.heatmap-full-image {
+.heatmap-full-image,
+.heatmap-full-video {
 
     max-width: 92%;
 

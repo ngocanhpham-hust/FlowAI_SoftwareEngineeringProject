@@ -269,8 +269,10 @@ async function loadMulticameraOverview() {
         card.className = "multicam-card";
         card.innerHTML = `
             <div class="multicam-media">
-                ${camera.preview_path
-                    ? `<img src="${camera.preview_path}?t=${Date.now()}" alt="${camera.name} preview">`
+                ${camera.processed_video_path
+                    ? `<video controls muted loop preload="metadata" poster="${camera.preview_path || ""}?t=${Date.now()}">
+                        <source src="${camera.processed_video_path}?t=${Date.now()}" type="video/mp4">
+                    </video>`
                     : `<div class="empty-media">No processed job</div>`}
             </div>
             <div class="multicam-body">
@@ -352,6 +354,8 @@ function clearStatsUi() {
     const video = document.getElementById("processedVideo");
     const source = video?.querySelector("source");
     const fallback = document.getElementById("processedFallback");
+    const heatmapVideo = document.getElementById("heatmapVideo");
+    const heatmapVideoSource = heatmapVideo?.querySelector("source");
     const heatmap = document.getElementById("heatmapImage");
     const zonePreview = document.getElementById("zonePreview");
 
@@ -371,6 +375,14 @@ function clearStatsUi() {
     if (heatmap) {
         heatmap.removeAttribute("src");
         heatmap.style.display = "none";
+    }
+
+    if (heatmapVideo) {
+        heatmapVideo.pause();
+        heatmapVideo.removeAttribute("src");
+        if (heatmapVideoSource) heatmapVideoSource.removeAttribute("src");
+        heatmapVideo.style.display = "none";
+        heatmapVideo.load();
     }
 
     if (zonePreview) {
@@ -432,6 +444,7 @@ function refreshMediaAssets(data = {}) {
     const previewPath = data.preview_path || "/preview.jpg";
     const processedVideoPath = data.processed_video_path || "/processed.mp4";
     const heatmapPath = data.heatmap_path || "/heatmap.png";
+    const heatmapVideoPath = data.heatmap_video_path || "";
 
     if (video) {
         if (fallback) {
@@ -474,8 +487,34 @@ function refreshMediaAssets(data = {}) {
         }, 1200);
     }
 
-    document.getElementById("heatmapImage").src = `${heatmapPath}?t=${mediaToken}`;
-    document.getElementById("heatmapImage").style.display = "block";
+    const heatmapVideo = document.getElementById("heatmapVideo");
+    const heatmapVideoSource = heatmapVideo?.querySelector("source");
+    const heatmapImage = document.getElementById("heatmapImage");
+
+    if (heatmapVideo && heatmapVideoPath) {
+        heatmapVideo.src = `${heatmapVideoPath}?t=${mediaToken}`;
+
+        if (heatmapVideoSource) {
+            heatmapVideoSource.src = heatmapVideo.src;
+        }
+
+        heatmapVideo.poster = `${heatmapPath}?t=${mediaToken}`;
+        heatmapVideo.style.display = "block";
+        heatmapVideo.load();
+        heatmapVideo.play().catch(() => {});
+
+        if (heatmapImage) {
+            heatmapImage.src = `${heatmapPath}?t=${mediaToken}`;
+            heatmapImage.style.display = "none";
+        }
+    } else if (heatmapImage) {
+        heatmapImage.src = `${heatmapPath}?t=${mediaToken}`;
+        heatmapImage.style.display = "block";
+
+        if (heatmapVideo) {
+            heatmapVideo.style.display = "none";
+        }
+    }
 
     const preview = document.getElementById("zonePreview");
 
@@ -1365,14 +1404,42 @@ function switchTab(tabId, button) {
 
 function openHeatmap() {
     const modal = document.getElementById("heatmapModal");
+    const heatmapVideo = document.getElementById("heatmapVideo");
     const heatmap = document.getElementById("heatmapImage");
+    const fullVideo = document.getElementById("heatmapFullVideo");
+    const fullVideoSource = fullVideo?.querySelector("source");
     const fullImage = document.getElementById("heatmapFull");
 
-    fullImage.src = heatmap.src;
+    if (heatmapVideo?.src && heatmapVideo.style.display !== "none") {
+        fullVideo.src = heatmapVideo.src;
+
+        if (fullVideoSource) {
+            fullVideoSource.src = heatmapVideo.src;
+        }
+
+        fullVideo.style.display = "block";
+        fullImage.style.display = "none";
+        fullVideo.load();
+        fullVideo.play().catch(() => {});
+    } else {
+        fullImage.src = heatmap.src;
+        fullImage.style.display = "block";
+        fullVideo.pause();
+        fullVideo.removeAttribute("src");
+        if (fullVideoSource) fullVideoSource.removeAttribute("src");
+        fullVideo.style.display = "none";
+    }
+
     modal.style.display = "flex";
 }
 
 function closeHeatmap() {
+    const fullVideo = document.getElementById("heatmapFullVideo");
+
+    if (fullVideo) {
+        fullVideo.pause();
+    }
+
     document.getElementById("heatmapModal").style.display = "none";
 }
 

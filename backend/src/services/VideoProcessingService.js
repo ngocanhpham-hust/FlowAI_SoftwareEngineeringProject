@@ -90,6 +90,7 @@ class VideoProcessingService {
     copyLatestMedia(mediaPaths) {
         fs.copyFileSync(mediaPaths.processedVideoPath, path.join(PUBLIC_DIR, "processed.mp4"));
         fs.copyFileSync(mediaPaths.heatmapPath, path.join(PUBLIC_DIR, "heatmap.png"));
+        fs.copyFileSync(mediaPaths.heatmapVideoPath, path.join(PUBLIC_DIR, "heatmap.mp4"));
         fs.copyFileSync(mediaPaths.previewPath, path.join(PUBLIC_DIR, "preview.jpg"));
     }
 
@@ -119,9 +120,10 @@ class VideoProcessingService {
                 congestion_alert = $9,
                 processed_video_path = $10,
                 heatmap_path = $11,
-                preview_path = $12,
+                heatmap_video_path = $12,
+                preview_path = $13,
                 finished_at = NOW()
-            WHERE id = $13
+            WHERE id = $14
             `,
             [
                 stats.total_people || 0,
@@ -135,6 +137,7 @@ class VideoProcessingService {
                 stats.congestion_alert || "Normal",
                 mediaUrls.processedVideoUrl,
                 mediaUrls.heatmapUrl,
+                mediaUrls.heatmapVideoUrl,
                 mediaUrls.previewUrl,
                 jobId
             ]
@@ -282,6 +285,7 @@ class VideoProcessingService {
             previewPath: path.join(mediaDir, "preview.jpg"),
             processedVideoPath: path.join(mediaDir, "processed.mp4"),
             heatmapPath: path.join(mediaDir, "heatmap.png"),
+            heatmapVideoPath: path.join(mediaDir, "heatmap.mp4"),
             trajectoryPath: path.join(mediaDir, "trajectories.csv"),
             statsPath: path.join(mediaDir, "stats.json")
         };
@@ -289,7 +293,8 @@ class VideoProcessingService {
         const mediaUrls = {
             previewUrl: this.publicUrlFor(mediaPaths.previewPath),
             processedVideoUrl: this.publicUrlFor(mediaPaths.processedVideoPath),
-            heatmapUrl: this.publicUrlFor(mediaPaths.heatmapPath)
+            heatmapUrl: this.publicUrlFor(mediaPaths.heatmapPath),
+            heatmapVideoUrl: this.publicUrlFor(mediaPaths.heatmapVideoPath)
         };
 
         try {
@@ -306,7 +311,8 @@ class VideoProcessingService {
             await this.runPython("heatmap.py", [
                 mediaPaths.trajectoryPath,
                 mediaPaths.processedVideoPath,
-                mediaPaths.heatmapPath
+                mediaPaths.heatmapPath,
+                mediaPaths.heatmapVideoPath
             ]);
             await this.persistTrajectoryPoints(jobId, mediaPaths.trajectoryPath);
 

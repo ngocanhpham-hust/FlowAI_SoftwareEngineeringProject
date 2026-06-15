@@ -489,11 +489,29 @@
 
                         </div>
 
-                        <img
-                            id="heatmapImage"
-                            src=""
+                        <div
+                            class="heatmap-video-wrapper"
                             onclick="openHeatmap()"
                         >
+                            <video
+                                id="heatmapVideo"
+                                controls
+                                autoplay
+                                muted
+                                loop
+                            >
+                                <source
+                                    src=""
+                                    type="video/mp4"
+                                >
+                            </video>
+
+                            <img
+                                id="heatmapImage"
+                                src=""
+                                alt="Heatmap preview"
+                            >
+                        </div>
 
                     </div>
 
@@ -819,6 +837,20 @@
         >
             ✕
         </span>
+
+        <video
+            id="heatmapFullVideo"
+            class="heatmap-full-video"
+            controls
+            autoplay
+            muted
+            loop
+        >
+            <source
+                src=""
+                type="video/mp4"
+            >
+        </video>
 
         <img
             id="heatmapFull"

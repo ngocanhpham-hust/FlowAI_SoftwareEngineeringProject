@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS analysis_jobs (
     congestion_alert TEXT DEFAULT 'Normal',
     processed_video_path TEXT,
     heatmap_path TEXT,
+    heatmap_video_path TEXT,
     preview_path TEXT,
     error_message TEXT,
     started_at TIMESTAMP,
@@ -138,6 +139,9 @@ ADD COLUMN IF NOT EXISTS processed_video_path TEXT;
 
 ALTER TABLE analysis_jobs
 ADD COLUMN IF NOT EXISTS heatmap_path TEXT;
+
+ALTER TABLE analysis_jobs
+ADD COLUMN IF NOT EXISTS heatmap_video_path TEXT;
 
 ALTER TABLE analysis_jobs
 ADD COLUMN IF NOT EXISTS preview_path TEXT;

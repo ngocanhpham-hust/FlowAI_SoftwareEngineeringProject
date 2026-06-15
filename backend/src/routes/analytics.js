@@ -147,7 +147,7 @@ router.get("/multicamera/overview", authenticate, async (req, res) => {
         SELECT cs.id AS camera_source_id, cs.name, cs.location, cs.status,
                aj.id AS analysis_job_id, aj.total_people, aj.most_crowded_zone,
                aj.popular_path, aj.congestion_alert, aj.processed_video_path,
-               aj.heatmap_path, aj.preview_path, aj.finished_at,
+               aj.heatmap_path, aj.heatmap_video_path, aj.preview_path, aj.finished_at,
                COALESCE(open_alerts.count, 0)::int AS open_alert_count
         FROM camera_sources cs
         LEFT JOIN LATERAL (
@@ -194,7 +194,7 @@ router.get("/stats", authenticate, async (req, res) => {
             SELECT id, camera_source_id, total_people, most_crowded_zone, popular_path,
                    zone_counts, transitions, timeline, congestion_alert, status,
                    dwell_times, density_scores,
-                   processed_video_path, heatmap_path, preview_path,
+                   processed_video_path, heatmap_path, heatmap_video_path, preview_path,
                    started_at, finished_at
             FROM analysis_jobs
             WHERE ${filters.join(" AND ")}
@@ -404,7 +404,7 @@ router.get("/analysis-jobs", authenticate, async (req, res) => {
         `
         SELECT aj.id, aj.video_id, aj.camera_source_id, aj.status, aj.total_people,
                aj.most_crowded_zone, aj.popular_path, aj.congestion_alert,
-               aj.processed_video_path, aj.heatmap_path, aj.preview_path,
+               aj.processed_video_path, aj.heatmap_path, aj.heatmap_video_path, aj.preview_path,
                aj.started_at, aj.finished_at, aj.created_at, aj.error_message,
                cs.name AS camera_name, cs.location AS camera_location,
                v.original_name AS video_name
